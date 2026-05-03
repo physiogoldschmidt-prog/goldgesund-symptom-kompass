@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Symptom-Kompass | GOLDGESUND</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --gold:#C8963E;
+  --gold-light:rgba(200,150,62,0.12);
+  --green:#1D9E75;
+  --green-light:rgba(29,158,117,0.10);
+  --cream:#FAFAF7;
+  --dark:#2C2C2A;
+  --muted:#7a7060;
+  --border:#E8E5DF;
+  --font:-apple-system,BlinkMacSystemFont,'Inter','Segoe UI',sans-serif;
+  --p-col:#1D9E75;--p-bg:#E1F5EE;--p-text:#085041;
+  --v-col:#BA7517;--v-bg:#FAEEDA;--v-text:#633806;
+  --c-col:#7F77DD;--c-bg:#EEEDFE;--c-text:#3C3489;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{font-family:var(--font);background:var(--cream);color:var(--dark);min-height:100vh;-webkit-font-smoothing:antialiased}
+.page{max-width:640px;margin:0 auto;padding:0 20px}
+
+/* HEADER */
+.site-header{padding:20px 0 0;text-align:center;margin-bottom:4px}
+.wordmark{font-size:11px;font-weight:800;letter-spacing:5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px}
+.header-divider{height:2px;background:linear-gradient(90deg,var(--green),var(--gold));margin:14px 0 0;border-radius:2px;opacity:.35}
+
+/* HERO */
+.hero{padding:32px 0 24px;text-align:center}
+.hero h1{font-size:clamp(26px,6vw,36px);font-weight:700;color:var(--dark);line-height:1.2;margin-bottom:10px;letter-spacing:-.5px}
+.hero h1 span{color:var(--green)}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.7;margin-bottom:12px;max-width:500px;margin-left:auto;margin-right:auto}
+.hero-note{display:inline-flex;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px;color:var(--muted);margin-top:4px}
+.hero-note span{display:flex;align-items:center;gap:4px}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.dot-p{background:var(--p-col)}
+.dot-v{background:var(--v-col)}
+.dot-c{background:var(--c-col)}
+
+/* TOGGLE */
+.toggle-bar{display:flex;gap:8px;justify-content:center;margin:0 0 20px}
+.toggle-btn{padding:10px 28px;border-radius:8px;border:1.5px solid var(--border);background:white;color:var(--muted);font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;transition:all .18s}
+.toggle-btn.active{background:var(--green);border-color:var(--green);color:white}
+.toggle-btn:not(.active):hover{border-color:var(--green);color:var(--green)}
+
+/* BODY SVG CONTAINER */
+.body-wrap{position:relative;display:flex;justify-content:center;margin-bottom:8px}
+.body-wrap svg{max-width:200px;width:100%;height:auto}
+
+/* ZONE STYLES */
+.zone{cursor:pointer;transition:all .15s}
+.zone-shape{fill:transparent;stroke:transparent;stroke-width:1}
+.zone:hover .zone-shape,.zone.active .zone-shape{fill:rgba(200,150,62,0.22);stroke:var(--gold);stroke-width:1.5}
+.zone-label{font-size:7px;fill:var(--muted);text-anchor:middle;pointer-events:none;font-family:var(--font);transition:fill .15s}
+.zone:hover .zone-label,.zone.active .zone-label{fill:var(--gold);font-weight:600}
+
+/* HINT */
+.body-hint{text-align:center;font-size:12px;color:var(--muted);margin-bottom:20px;opacity:.7}
+
+/* INFO CARD */
+.info-card{display:none;margin-bottom:40px}
+.info-card.visible{display:block}
+.info-zone-title{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:4px;line-height:1.3}
+.info-zone-badge{font-size:11px;color:var(--muted);margin-bottom:20px;display:block}
+
+.pillar{border-radius:14px;overflow:hidden;margin-bottom:14px}
+.pillar-header{padding:12px 16px;display:flex;align-items:center;gap:10px}
+.pillar-header-icon{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;background:rgba(255,255,255,.25)}
+.pillar-header-text{font-size:13px;font-weight:700;letter-spacing:.3px;color:white}
+.pillar-body{padding:16px}
+.pillar-text{font-size:15px;line-height:1.8;margin-bottom:12px}
+.pillar-tip{border-radius:10px;padding:12px 14px;font-size:13px;line-height:1.7;font-style:italic}
+.pillar-tip strong{font-style:normal;font-size:11px;letter-spacing:1px;text-transform:uppercase;display:block;margin-bottom:4px;opacity:.8}
+
+.pillar-p .pillar-header{background:var(--p-col)}
+.pillar-p .pillar-body{background:var(--p-bg)}
+.pillar-p .pillar-text{color:var(--p-text)}
+.pillar-p .pillar-tip{background:rgba(29,158,117,.12);color:var(--p-text)}
+
+.pillar-v .pillar-header{background:var(--v-col)}
+.pillar-v .pillar-body{background:var(--v-bg)}
+.pillar-v .pillar-text{color:var(--v-text)}
+.pillar-v .pillar-tip{background:rgba(186,117,23,.12);color:var(--v-text)}
+
+.pillar-c .pillar-header{background:var(--c-col)}
+.pillar-c .pillar-body{background:var(--c-bg)}
+.pillar-c .pillar-text{color:var(--c-text)}
+.pillar-c .pillar-tip{background:rgba(127,119,221,.12);color:var(--c-text)}
+
+.back-btn{display:flex;align-items:center;gap:8px;background:none;border:1.5px solid var(--border);border-radius:8px;padding:10px 18px;font-size:14px;font-weight:600;font-family:var(--font);color:var(--muted);cursor:pointer;margin-bottom:24px;transition:all .15s}
+.back-btn:hover{border-color:var(--green);color:var(--green)}
+
+/* FOOTER */
+.site-footer{text-align:center;padding:20px 0 40px;font-size:11px;color:var(--muted);opacity:.55;border-top:1px solid var(--border);line-height:1.7}
+
+/* BODY SILHOUETTE */
+.body-outline{fill:#f0ece4;stroke:#c8c0b0;stroke-width:1.2}
+</style>
+</head>
+<body>
+
+<div class="page">
+
+<header class="site-header">
+  <span class="wordmark">Goldgesund</span>
+  <span style="font-size:11px;color:var(--muted);letter-spacing:1px">von Lisa Goldschmidt · Osteopathin</span>
+  <div class="header-divider"></div>
+</header>
+
+<section class="hero">
+  <h1>Symptom-<span>Kompass</span></h1>
+  <p class="hero-sub">Tippe auf die Stelle die sich gerade meldet — und erfahre was osteopathisch dahinter stecken könnte.</p>
+  <div class="hero-note">
+    <span><span class="dot dot-p"></span>Struktur</span>
+    <span><span class="dot dot-v"></span>Organe</span>
+    <span><span class="dot dot-c"></span>Nervensystem</span>
+  </div>
+</section>
+
+<div class="toggle-bar">
+  <button class="toggle-btn active" id="btn-front" onclick="showView('front')">Vorderseite</button>
+  <button class="toggle-btn" id="btn-back" onclick="showView('back')">Rückseite</button>
+</div>
+
+<!-- FRONT VIEW -->
+<div class="body-wrap" id="view-front">
+<svg viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- BODY OUTLINE FRONT -->
+  <!-- Head -->
+  <circle cx="100" cy="33" r="27" class="body-outline"/>
+  <!-- Hair hint -->
+  <path d="M73,22 Q100,8 127,22" fill="none" stroke="#b8b0a0" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Neck -->
+  <path d="M90,59 L90,74 Q100,78 110,74 L110,59" class="body-outline"/>
+  <!-- Torso + legs -->
+  <path d="
+    M90,74 Q100,78 110,74
+    C118,72 132,76 144,85
+    C156,94 162,108 160,122
+    L152,195 C150,212 152,228 154,245
+    L148,425 L128,425 L124,245
+    Q116,252 108,254 Q100,255 92,254 Q84,252 76,245
+    L72,425 L52,425 L46,245
+    C48,228 50,212 48,195
+    L40,122
+    C38,108 44,94 56,85
+    C68,76 82,72 90,74Z
+  " class="body-outline"/>
+  <!-- Left arm -->
+  <path d="M56,85 C44,90 30,102 20,124 L16,218 Q18,228 28,228 Q38,228 40,218 L40,122" class="body-outline"/>
+  <!-- Right arm -->
+  <path d="M144,85 C156,90 170,102 180,124 L184,218 Q182,228 172,228 Q162,228 160,218 L160,122" class="body-outline"/>
+
+  <!-- ════ CLICKABLE ZONES ════ -->
+
+  <!-- KOPF -->
+  <g class="zone" data-zone="kopf" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="24" rx="20" ry="14"/>
+    <text class="zone-label" x="100" y="16">Kopf</text>
+  </g>
+
+  <!-- AUGEN -->
+  <g class="zone" data-zone="augen" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="31" rx="18" ry="7"/>
+    <text class="zone-label" x="100" y="29">Augen</text>
+  </g>
+
+  <!-- OHREN -->
+  <g class="zone" data-zone="ohren" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="75" cy="34" rx="6" ry="9"/>
+    <ellipse class="zone-shape" cx="125" cy="34" rx="6" ry="9"/>
+    <text class="zone-label" x="100" y="55">Ohren</text>
+  </g>
+
+  <!-- NASE -->
+  <g class="zone" data-zone="nase" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="38" rx="7" ry="8"/>
+    <text class="zone-label" x="100" y="48">Nase</text>
+  </g>
+
+  <!-- KIEFER -->
+  <g class="zone" data-zone="kiefer" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="51" rx="20" ry="9"/>
+    <text class="zone-label" x="100" y="51">Kiefer</text>
+  </g>
+
+  <!-- HALS -->
+  <g class="zone" data-zone="hals" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="70" rx="13" ry="10"/>
+    <text class="zone-label" x="100" y="70">Hals</text>
+  </g>
+
+  <!-- SCHULTER LINKS -->
+  <g class="zone" data-zone="schulter-links" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="58" cy="92" rx="18" ry="11"/>
+    <text class="zone-label" x="46" y="108">Schulter L</text>
+  </g>
+
+  <!-- SCHULTER RECHTS -->
+  <g class="zone" data-zone="schulter-rechts" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="142" cy="92" rx="18" ry="11"/>
+    <text class="zone-label" x="154" y="108">Schulter R</text>
+  </g>
+
+  <!-- BRUSTKORB -->
+  <g class="zone" data-zone="brustkorb" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="120" rx="36" ry="22"/>
+    <text class="zone-label" x="100" y="121">Brustkorb</text>
+  </g>
+
+  <!-- HERZ -->
+  <g class="zone" data-zone="herz" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="87" cy="114" rx="13" ry="13"/>
+    <text class="zone-label" x="87" y="114">Herz</text>
+  </g>
+
+  <!-- HAND LINKS -->
+  <g class="zone" data-zone="haende" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="24" cy="214" rx="13" ry="17"/>
+    <text class="zone-label" x="14" y="236">Hände</text>
+  </g>
+
+  <!-- HAND RECHTS -->
+  <g class="zone" data-zone="haende" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="176" cy="214" rx="13" ry="17"/>
+  </g>
+
+  <!-- OBERBAUCH -->
+  <g class="zone" data-zone="oberbauch" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="157" rx="30" ry="17"/>
+    <text class="zone-label" x="100" y="157">Oberbauch</text>
+  </g>
+
+  <!-- UNTERBAUCH -->
+  <g class="zone" data-zone="unterbauch" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="198" rx="28" ry="17"/>
+    <text class="zone-label" x="100" y="198">Unterbauch</text>
+  </g>
+
+  <!-- HÜFTE LINKS -->
+  <g class="zone" data-zone="huefte" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="68" cy="238" rx="18" ry="14"/>
+    <text class="zone-label" x="56" y="256">Hüfte L</text>
+  </g>
+
+  <!-- HÜFTE RECHTS -->
+  <g class="zone" data-zone="huefte" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="132" cy="238" rx="18" ry="14"/>
+    <text class="zone-label" x="144" y="256">Hüfte R</text>
+  </g>
+
+  <!-- KNIE LINKS -->
+  <g class="zone" data-zone="knie" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="72" cy="330" rx="14" ry="15"/>
+    <text class="zone-label" x="60" y="348">Knie L</text>
+  </g>
+
+  <!-- KNIE RECHTS -->
+  <g class="zone" data-zone="knie" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="128" cy="330" rx="14" ry="15"/>
+    <text class="zone-label" x="140" y="348">Knie R</text>
+  </g>
+
+  <!-- FÜSSE LINKS -->
+  <g class="zone" data-zone="fuesse" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="72" cy="418" rx="17" ry="10"/>
+    <text class="zone-label" x="58" y="435">Fuß L</text>
+  </g>
+
+  <!-- FÜSSE RECHTS -->
+  <g class="zone" data-zone="fuesse" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="128" cy="418" rx="17" ry="10"/>
+    <text class="zone-label" x="142" y="435">Fuß R</text>
+  </g>
+
+</svg>
+</div>
+
+<!-- BACK VIEW -->
+<div class="body-wrap" id="view-back" style="display:none">
+<svg viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- BODY OUTLINE BACK -->
+  <circle cx="100" cy="33" r="27" class="body-outline"/>
+  <!-- Hair -->
+  <path d="M73,14 Q100,5 127,14 Q127,38 120,46 Q100,50 80,46 Q73,38 73,14Z" fill="#c8c0b0" opacity=".4"/>
+  <!-- Neck -->
+  <path d="M90,59 L90,74 Q100,78 110,74 L110,59" class="body-outline"/>
+  <!-- Torso + legs back -->
+  <path d="
+    M90,74 Q100,78 110,74
+    C118,72 132,76 144,85
+    C156,94 162,108 160,122
+    L152,195 C150,212 152,228 154,245
+    L148,425 L128,425 L124,245
+    Q116,252 108,254 Q100,255 92,254 Q84,252 76,245
+    L72,425 L52,425 L46,245
+    C48,228 50,212 48,195
+    L40,122
+    C38,108 44,94 56,85
+    C68,76 82,72 90,74Z
+  " class="body-outline"/>
+  <!-- Left arm back -->
+  <path d="M56,85 C44,90 30,102 20,124 L16,218 Q18,228 28,228 Q38,228 40,218 L40,122" class="body-outline"/>
+  <!-- Right arm back -->
+  <path d="M144,85 C156,90 170,102 180,124 L184,218 Q182,228 172,228 Q162,228 160,218 L160,122" class="body-outline"/>
+
+  <!-- ════ BACK ZONES ════ -->
+
+  <!-- NACKEN & HWS -->
+  <g class="zone" data-zone="nacken" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="74" rx="16" ry="13"/>
+    <text class="zone-label" x="100" y="74">Nacken</text>
+  </g>
+
+  <!-- SCHULTERBLÄTTER LINKS -->
+  <g class="zone" data-zone="schulterblaetter" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="73" cy="116" rx="17" ry="20"/>
+    <text class="zone-label" x="58" y="140">Schulterbl. L</text>
+  </g>
+
+  <!-- SCHULTERBLÄTTER RECHTS -->
+  <g class="zone" data-zone="schulterblaetter" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="127" cy="116" rx="17" ry="20"/>
+    <text class="zone-label" x="142" y="140">Schulterbl. R</text>
+  </g>
+
+  <!-- BWS -->
+  <g class="zone" data-zone="bws" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="128" rx="22" ry="26"/>
+    <text class="zone-label" x="100" y="128">BWS</text>
+  </g>
+
+  <!-- LWS -->
+  <g class="zone" data-zone="lws" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="178" rx="24" ry="20"/>
+    <text class="zone-label" x="100" y="178">LWS</text>
+  </g>
+
+  <!-- BECKEN & KREUZBEIN -->
+  <g class="zone" data-zone="becken" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="100" cy="222" rx="30" ry="18"/>
+    <text class="zone-label" x="100" y="222">Becken</text>
+  </g>
+
+  <!-- OBERSCHENKEL LINKS -->
+  <g class="zone" data-zone="oberschenkel" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="76" cy="292" rx="16" ry="36"/>
+    <text class="zone-label" x="58" y="316">Oberschenkel L</text>
+  </g>
+
+  <!-- OBERSCHENKEL RECHTS -->
+  <g class="zone" data-zone="oberschenkel" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="124" cy="292" rx="16" ry="36"/>
+    <text class="zone-label" x="142" y="316">Oberschenkel R</text>
+  </g>
+
+  <!-- WADE LINKS -->
+  <g class="zone" data-zone="wade" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="76" cy="375" rx="13" ry="28"/>
+    <text class="zone-label" x="60" y="398">Wade L</text>
+  </g>
+
+  <!-- WADE RECHTS -->
+  <g class="zone" data-zone="wade" onclick="selectZone(this)">
+    <ellipse class="zone-shape" cx="124" cy="375" rx="13" ry="28"/>
+    <text class="zone-label" x="140" y="398">Wade R</text>
+  </g>
+
+</svg>
+</div>
+
+<p class="body-hint">↑ Tippe auf eine Zone</p>
+
+<!-- INFO CARD -->
+<div class="info-card" id="info-card">
+  <button class="back-btn" onclick="closeCard()">← Zurück zur Körperkarte</button>
+  <div class="info-zone-title" id="card-title"></div>
+  <span class="info-zone-badge" id="card-badge"></span>
+
+  <div class="pillar pillar-p" id="pillar-p">
+    <div class="pillar-header">
+      <div class="pillar-header-icon">🦴</div>
+      <div class="pillar-header-text" id="p-header"></div>
+    </div>
+    <div class="pillar-body">
+      <p class="pillar-text" id="p-text"></p>
+      <div class="pillar-tip"><strong>Körper-Hinweis</strong><span id="p-tip"></span></div>
+    </div>
+  </div>
+
+  <div class="pillar pillar-v" id="pillar-v">
+    <div class="pillar-header">
+      <div class="pillar-header-icon">🫀</div>
+      <div class="pillar-header-text" id="v-header"></div>
+    </div>
+    <div class="pillar-body">
+      <p class="pillar-text" id="v-text"></p>
+      <div class="pillar-tip"><strong>Körper-Hinweis</strong><span id="v-tip"></span></div>
+    </div>
+  </div>
+
+  <div class="pillar pillar-c" id="pillar-c">
+    <div class="pillar-header">
+      <div class="pillar-header-icon">🧠</div>
+      <div class="pillar-header-text" id="c-header"></div>
+    </div>
+    <div class="pillar-body">
+      <p class="pillar-text" id="c-text"></p>
+      <div class="pillar-tip"><strong>Lisa sagt</strong><span id="c-tip"></span></div>
+    </div>
+  </div>
+
+  <button class="back-btn" onclick="closeCard()" style="margin-top:8px">← Zurück zur Körperkarte</button>
+</div>
+
+<footer class="site-footer">
+  Dieser Kompass ersetzt keine medizinische Diagnose. Er dient der Selbstwahrnehmung und Bildung.<br/>
+  Bei gesundheitlichen Beschwerden wende dich an eine Fachperson.<br/>
+  Lisa Goldschmidt · Heilpraktikerin &amp; Osteopathin · Berlin Mariendorf
+</footer>
+
+</div><!-- end .page -->
+
+<script>
+const ZONES = {
+
+kopf:{
+  label:'Kopf',
+  badge:'Säule 1 & 3',
+  p:{
+    h:'Parietal — Struktur · Schädel · Balance',
+    t:'Der Kopf balanciert auf der Wirbelsäule — auf dem Atlas, der sich unter ihm dreht wie ein feines Kugelgelenk. Er wiegt zwischen vier und sechs Kilogramm. Für jeden Zentimeter den er nach vorne kippt verdoppelt sich die Last für die Nackenmuskulatur. Der Schädel ist die Schutzhülle des Gehirns — und er ist nicht starr. Die Schädelknochen bewegen sich in einem feinen Rhythmus, getragen vom Liquorfluss. Diese Mobilität ist keine Theorie — sie ist messbar, behandelbar, und entscheidend für das Wohlbefinden des gesamten Systems.',
+    tip:'Stell dir vor dein Kopf schwebt an einem unsichtbaren Faden nach oben — nicht gedrückt, nicht gezogen. Spür wie sich die Nackenmuskulatur dabei verändert. Das ist die natürliche Kopfposition.'
+  },
+  v:{
+    h:'Viszeral — Organe · Vagus · Darm-Hirn-Achse',
+    t:'Das Gehirn ist das energiehungrigste Organ des Körpers — es verbraucht etwa 20% unserer gesamten Energie. Was wir essen erreicht das Gehirn. Der Vagusnerv — der längste Nerv des Körpers — zieht vom Hirnstamm direkt in die Organe. Das Gehirn ist über ihn in ständigem Gespräch mit Herz, Lunge, Darm und Leber. Was im Bauch passiert landet im Kopf — und umgekehrt.',
+    tip:'Brain Fog, Konzentrationsprobleme, Stimmungsschwankungen — schau zuerst auf den Darm. 90% des Serotonins wird im Darm produziert.'
+  },
+  c:{
+    h:'Craniosacral — Nervensystem · Liquor · Emotionen',
+    t:'Der Kopf ist das obere Ende eines Systems das bis zum Kreuzbein reicht — Hirnhäute, Liquor und craniosacraler Rhythmus verbinden Schädel und Sakrum in einer einzigen pulsierenden Einheit. Wenn das Gehirn heiß läuft — durch Stress, Überforderung, zu viele Reize — stockt dieser Fluss. Im Frontallappen sitzt das was uns als Menschen ausmacht: Entscheidungen, Empathie, Impulskontrolle. Im limbischen System sitzen unsere Emotionen und Erinnerungen.',
+    tip:'Lege die Hände sanft auf den Hinterkopf und atme tief aus. Stell dir vor der Kopf wird schwerer — sinkt in deine Hände. Dieser einfache Moment gibt dem craniosacralen System Erlaubnis loszulassen.'
+  }
+},
+
+augen:{
+  label:'Augen',
+  badge:'',
+  p:{
+    h:'Parietal — Schädel · Nacken · Augenhöhle',
+    t:'Der Sehnerv ist ein echter Hirnnerv — er verbindet die Augen direkt mit dem Gehirn. Minimale Spannungen in Stirnbein, Keilbein oder Schläfenbein verändern direkt die Form der Augenhöhle und damit den Druck auf den Augapfel. Die tiefen Nackenmuskeln haben eine direkte neurologische Verbindung zu den Augenmuskeln. Wer viel am Bildschirm arbeitet kennt das: steifer Nacken, trockene müde Augen, Kopfdruck. Das ist kein Zufall sondern Anatomie.',
+    tip:'Massiere sanft die Schläfen und den Bereich unter dem Hinterkopf. Viele Menschen spüren sofort wie die Augen weicher werden.'
+  },
+  v:{
+    h:'Viszeral — Leber · Niere · TCM',
+    t:'In der Traditionellen Chinesischen Medizin sind die Augen das Fenster der Leber — und die Niere nährt das Sehvermögen. Leber-Erschöpfung zeigt sich in trockenen, brennenden oder lichtempfindlichen Augen. Chronischer Stress belastet die Leber, die Leber belastet die Augen. Wer viel grübelt, wenig schläft und unter Dauerstress steht — der sieht das irgendwann buchstäblich.',
+    tip:'Trockene Augen trotz genug Schlaf? Schau auf deine Leber — zu viel Bildschirm, Alkohol, Zucker und Stress sind die häufigsten Auslöser.'
+  },
+  c:{
+    h:'Craniosacral — Druck · Fluss · Emotionen',
+    t:'Der Augeninnendruck spiegelt den Druck im gesamten craniosacralen System wider. Spannung in den Hirnhäuten, ein eingeschränkter Liquorfluss, ein Nervensystem das nicht zur Ruhe kommt: das alles kann sich im Auge als Druck, Flimmern oder Überempfindlichkeit zeigen. Und dann ist da noch die andere Ebene: Was schaust du dir nicht an? Was willst du nicht sehen?',
+    tip:'Mach die Augen zu und lass sie ganz weich werden — als würden sie in die Tiefe sinken. Keine Anstrengung, kein Fokus. Einfach loslassen.'
+  }
+},
+
+ohren:{
+  label:'Ohren',
+  badge:'',
+  p:{
+    h:'Parietal — Schläfenbein · Kiefer · Zähne',
+    t:'Das Ohr sitzt im Schläfenbein — einem der beweglichsten Knochen des Schädels. Minimale Spannungen im Schläfenbein verändern direkt die Mechanik des Mittelohrs. Das Kiefergelenk liegt unmittelbar vor dem Gehörgang — Kieferspannung, nächtliches Zähneknirschen und Zahnfehlstellungen übertragen sich direkt ins Ohr. Viele Menschen mit chronischem Tinnitus haben eine unbehandelte Kieferproblematik.',
+    tip:'Öffne den Mund ganz langsam und lausch dabei — knackt oder reibt das Kiefergelenk? Dann lohnt es sich den Kiefer osteopathisch zu behandeln bevor du die Ohren behandelst.'
+  },
+  v:{
+    h:'Viszeral — Niere · Nebennieren · TCM',
+    t:'In der TCM sind die Ohren das Fenster der Niere. Nierenerschöpfung zeigt sich als Tinnitus, nachlassendes Hörvermögen oder Überempfindlichkeit gegenüber Geräuschen. Die Nebennieren sind das Stressorgan des Körpers schlechthin. Wer lange unter Dauerstress steht erschöpft zuerst die Nebennieren — und hört es irgendwann in den Ohren.',
+    tip:'Tinnitus der abends schlimmer wird und mit Erschöpfung zusammenhängt ist oft ein Nieren-Nebennieren-Signal.'
+  },
+  c:{
+    h:'Craniosacral — Lymphe · Hirnhäute · Emotionen',
+    t:'Das Schläfenbein bewegt sich im craniosacralen Rhythmus. Wenn dieser Rhythmus durch Spannung in den Hirnhäuten oder einen eingeschränkten Lymphfluss gestört wird reagieren die Ohren. Und dann ist da noch die andere Ebene: Was willst du nicht hören? Was dringt von außen ein das du eigentlich nicht willst? Und umgekehrt: Wann hast du zuletzt wirklich in dich hineingehört?',
+    tip:'Halte die Hände sanft über die Ohren — ohne zu drücken. Atme tief ein und aus. Diese kleine Geste gibt dem Nervensystem sofort das Signal: jetzt darf es leiser werden.'
+  }
+},
+
+nase:{
+  label:'Nase',
+  badge:'',
+  p:{
+    h:'Parietal — Schädelform · Nasennebenhöhlen · Struktur',
+    t:'Die Nase ist eingebettet in die Schädelstruktur — Nasenbein, Oberkieferknochen, Siebbein und Keilbein formen gemeinsam den Raum in dem Luft fließt. Eine Schädelform die durch Geburt, Unfälle oder chronische Spannung verändert wurde kann die Nasennebenhöhlen direkt beeinflussen. Chronisch verstopfte Nasennebenhöhlen sind oft kein rein allergisches Problem — sie spiegeln häufig eine eingeschränkte Schädelmobilität wider.',
+    tip:'Atme einmal durch die Nase ein — und dann durch den Mund. Spürst du einen Unterschied in der Tiefe des Atemzugs? Die Nase ist kein optionaler Atemweg — sie ist der richtige.'
+  },
+  v:{
+    h:'Viszeral — Atemsystem · Schleimhäute · Lymphe',
+    t:'Die Nase filtert, befeuchtet und erwärmt die Luft bevor sie die Lunge erreicht. Wer chronisch durch den Mund atmet überspringt diesen Filter komplett. Die Nasenschleimhäute sind direkt mit dem lymphatischen System verbunden. Mundatmung als Kompensation verändert Kieferstellung, Zungenlage und langfristig die gesamte Körperhaltung.',
+    tip:'Schläfst du mit offenem Mund? Dann atmet dein Körper nachts falsch. Mouth-Taping ist ein einfacher erster Schritt.'
+  },
+  c:{
+    h:'Craniosacral — Limbisches System · Erinnerung · Emotionen',
+    t:'Der Geruchssinn ist der einzige Sinn der ohne Umweg direkt ins limbische System führt — ins emotionale Gedächtnis, ins Urgehirn. Ein Duft kann in Sekunden eine Erinnerung wachrufen die zwanzig Jahre alt ist. Der Vomer — der Knochen der die Nasenscheidewand trägt — liegt direkt an der Schädelbasis und beeinflusst den craniosacralen Rhythmus. Was willst du nicht mehr einatmen — in dein Leben?',
+    tip:'Schnüffel bewusst an etwas das dir gut tut — frische Luft, ein Gewürz, eine Blume. Der Geruchssinn ist der direkteste Weg ins Nervensystem. Aromatherapie ist keine Esoterik — sie ist Neurologie.'
+  }
+},
+
+kiefer:{
+  label:'Kiefer',
+  badge:'',
+  p:{
+    h:'Parietal — Zwei Knochen · Masseter · Stress',
+    t:'Das Kiefergelenk besteht aus zwei Gelenken die immer gleichzeitig arbeiten — der Unterkiefer ist der einzige lose Knochen des Schädels. Nur die Muskulatur hält ihn. Der Masseter — gemessen an seiner Größe der stärkste Muskel im Körper — reagiert als einer der ersten auf Stress. Zähneknirschen nachts ist kein Zahnproblem — es ist ein Nervensystem-Problem das sich im Kiefer entlädt.',
+    tip:'Lippen aufeinander, Zähne nicht berühren — das ist die entspannte Kieferruheposition. Wenn sich das seltsam anfühlt hältst du deinen Kiefer chronisch unter Spannung.'
+  },
+  v:{
+    h:'Viszeral — Halsfaszie · Thorax · Verdauung',
+    t:'Der Kiefer wird nicht nur von oben beeinflusst — er wird auch von unten gezogen. Die Halsfaszie verbindet Kiefer, Halsorgane und Brustkorb in einer durchgehenden Linie. Spannungen im Thorax, eine eingeschränkte Lunge oder ein verspannter Magen können diese Faszienlinie straffen und sich bis in den Kiefer fortsetzen. Kauen ist der erste Schritt der Verdauung — ein verspannter Kiefer kaut schlechter und belastet den gesamten Verdauungstrakt.',
+    tip:'Atme tief in den Bauch und lass beim Ausatmen den Kiefer los. Thorax und Kiefer sind ein System.'
+  },
+  c:{
+    h:'Craniosacral — Schädelbasis · Innerer Druck · Kontrolle',
+    t:'Der Kiefer hängt direkt mit der Schädelbasis zusammen. Aber noch tiefer: der Kiefer ist der Ort wo wir inneren Druck halten. Ich muss mich durchbeißen. Ich muss die Kontrolle behalten. Ich darf nicht loslassen. Diese Überzeugungen leben nicht nur im Kopf — sie leben im Masseter, im Kiefergelenk, in der nächtlichen Anspannung die Zähne hinterlässt.',
+    tip:'Gähn — bewusst und übertrieben. Der Gähnreflex ist eine der wenigen unkontrollierten Bewegungen des Kiefers. Er resettet das Kiefergelenk und signalisiert dem Nervensystem: es ist sicher loszulassen.'
+  }
+},
+
+hals:{
+  label:'Hals',
+  badge:'',
+  p:{
+    h:'Parietal — Halsfaszie · Halsorgane · Thorax',
+    t:'Die Halsfaszie zieht von der Schädelbasis bis zum Herzbeutel und weiter zum Zwerchfell — sie verbindet in einer einzigen Linie Kopf, Hals und Brust. Verspannungen hier beeinflussen nicht nur den Nacken, sondern können sich bis in die Schultern, den Brustkorb und sogar in die Atmung fortsetzen. Die Halsorgane — Kehlkopf, Luftröhre, Speiseröhre — sind eingebettet in dieses Fasziennetz.',
+    tip:'Schluck bewusst einmal leer. Spürst du Spannung beim Schlucken — oben, in der Mitte oder unten? Jede Zone sagt etwas anderes.'
+  },
+  v:{
+    h:'Viszeral — Schilddrüse · Hormonsystem · Lymphe',
+    t:'Die Schilddrüse sitzt mitten im Hals — und sie reguliert das gesamte Hormonsystem. Erschöpfung, Gewichtsveränderungen, Stimmungsschwankungen, Kälteempfindlichkeit: das alles kann aus dem Hals kommen. Der Hals ist außerdem ein wichtiger Lymphknotenpunkt. Was im Brustkorb nicht atmet spannt im Hals.',
+    tip:'Bist du oft müde ohne Grund? Frierst du schnell? Lass deine Schilddrüsenwerte mal vollständig checken — TSH allein reicht nicht.'
+  },
+  c:{
+    h:'Craniosacral — Vagus · Emotionen · Kommunikation',
+    t:'Der Kloß im Hals ist kein Bild — er ist eine echte körperliche Reaktion. Emotionen die keinen Ausdruck finden, Worte die wir nicht sagen, Grenzen die wir nicht setzen: sie sammeln sich im Hals. Der Vagusnerv zieht direkt durch diese Zone. Eine chronisch angespannte Halszone dämpft den Vagus, hält das Nervensystem im Alarmmodus. Was sagst du nicht? Was schluckst du runter?',
+    tip:'Summe leise — irgendeinen Ton, keine Melodie nötig. Der Hals braucht Vibration um loszulassen. 30 Sekunden summen verändert die Spannung spürbar.'
+  }
+},
+
+brustkorb:{
+  label:'Brustkorb',
+  badge:'',
+  p:{
+    h:'Parietal — Rippen · Gelenke · Zwerchfell',
+    t:'Der Brustkorb besteht aus zwölf Rippenpaaren, dem Sternum und der Brustwirbelsäule — viele kleine Gelenke und Muskeln die alle zusammenarbeiten müssen. Er schützt Herz und Lunge. Bei chronischem Stress kollabiert er nach innen, die Rippen blockieren, das Zwerchfell kann sich nicht frei bewegen.',
+    tip:'Lege beide Hände seitlich an den Brustkorb. Atme tief ein. Bewegen sich die Hände zur Seite? Wenn kaum — dein Brustkorb atmet seitlich nicht mit.'
+  },
+  v:{
+    h:'Viszeral — Herz · Lunge · TCM',
+    t:'Das Herz hängt über Bänder am Sternum und an der Brustwirbelsäule. Die Lunge hängt über die Pleurafaszie an der ersten und zweiten Rippe sowie an der HWS fest — eine blockierte HWS ist deshalb oft auch ein Atemproblem. In der TCM ist die Lunge der Sitz von Trauer. Das Herz ist der Sitz von Freude.',
+    tip:'Fühlst du oft Druck auf der Brust ohne körperlichen Befund? Schau auf das was du trägst — emotional.'
+  },
+  c:{
+    h:'Craniosacral — Herzgedächtnis · Entscheidungen · Emotionen',
+    t:'Das Herz hat ein eigenes Nervensystem. Herzgedächtnis ist Neurologie: das Herz erinnert sich an Verluste, an Verbundenheit, an Momente tiefer Freude und tiefer Trauer. Wir kennen alle den Unterschied zwischen einer Herzentscheidung und einer Kopfentscheidung.',
+    tip:'Lege eine Hand aufs Sternum. Atme ein — und beim Ausatmen stell dir vor die Brust wird weiter. Nicht drücken. Nur Erlaubnis geben.'
+  }
+},
+
+herz:{
+  label:'Herz',
+  badge:'',
+  p:{
+    h:'Parietal — Sternum · BWS · Halsfaszie',
+    t:'Das Herz ist über Bänder und Faszien direkt mit dem Sternum und der Brustwirbelsäule verbunden. Die Halsfaszie zieht vom Herzbeutel nach oben bis zur Schädelbasis. Herzrasen, Druckgefühl auf der Brust oder das Gefühl von Enge haben deshalb häufig eine strukturelle Komponente.',
+    tip:'Öffne bewusst den Brustkorb — Schultern zurück, Brustbein leicht anheben. Spür wie sich das auf deine Stimmung auswirkt.'
+  },
+  v:{
+    h:'Viszeral — Taktgeber · Durchblutung · Herzratenvariabilität',
+    t:'Das Herz ist der Taktgeber des gesamten Körpers. Die Herzratenvariabilität ist eines der besten Messgrößen für Stressresistenz und Gesundheit insgesamt. Chronischer Stress, Bewegungsmangel und emotionale Unterdrückung verringern diese Flexibilität.',
+    tip:'Langsames Ausatmen — länger als das Einatmen — aktiviert den Parasympathikus direkt. Vier Sekunden ein, sechs Sekunden aus.'
+  },
+  c:{
+    h:'Craniosacral — Herzgedächtnis · Herzentscheidungen · Emotionen',
+    t:'Das Herz hat ein eigenes Nervensystem mit etwa 40.000 Neuronen. Es verarbeitet Informationen, speichert Erfahrungen und kommuniziert mit dem Gehirn — öfter von unten nach oben als umgekehrt. Chronische Enge im Herzbereich ist oft das Zeichen dass die innere Stimme seit langer Zeit nicht gehört wurde.',
+    tip:'Lege eine Hand aufs Herz. Atme ruhig. Und frag dich: Was fühle ich gerade wirklich — wenn ich nicht nachdenke, nicht analysiere?'
+  }
+},
+
+'schulter-links':{
+  label:'Schulter links',
+  badge:'',
+  p:{
+    h:'Parietal — 5 Gelenke · HWS · BWS',
+    t:'Die Schulter besteht aus fünf Gelenken die alle zusammenarbeiten müssen. Ein großer Oberarmkopf sitzt in einer sehr kleinen Pfanne. Stabilität kommt ausschließlich aus Muskeln und Sehnen. Die HWS steuert die Schultermuskulatur direkt an. Das Schulterblatt braucht eine mobile BWS um frei gleiten zu können.',
+    tip:'Kreise mit den Schultern — langsam, groß, bewusst. Spür wo es zieht, wo es knackt.'
+  },
+  v:{
+    h:'Viszeral — Magen · Herz · Lunge',
+    t:'Die linke Schulter ist über Faszienlinien mit Magen, Herz und Lunge verbunden. Chronischer Schmerz in der linken Schulter ohne strukturellen Befund kann ein Hinweis auf diese Organe sein.',
+    tip:'Schmerzt die linke Schulter chronisch ohne Befund? Schau auf Herz und Magen.'
+  },
+  c:{
+    h:'Craniosacral — Stammhirn · Hirnnerven · Schutzreflex',
+    t:'Einige Schultermuskeln werden direkt über Hirnnerven innerviert — direkte Verbindung zum Stammhirn. Das Hochziehen der Schultern ist ein uralter Schutzreflex. Das Nervensystem muss zuerst Sicherheit spüren bevor die Schultern wirklich loslassen.',
+    tip:'Lass die Schultern fallen — nicht einmal, sondern zehnmal am Tag. Sicherheit schlägt Willenskraft.'
+  }
+},
+
+'schulter-rechts':{
+  label:'Schulter rechts',
+  badge:'',
+  p:{
+    h:'Parietal — 5 Gelenke · HWS · BWS',
+    t:'Die Schulter besteht aus fünf Gelenken die alle zusammenarbeiten müssen. Ein großer Oberarmkopf sitzt in einer sehr kleinen Pfanne. Stabilität kommt ausschließlich aus Muskeln und Sehnen. Die HWS steuert die Schultermuskulatur direkt an. Das Schulterblatt braucht eine mobile BWS um frei gleiten zu können.',
+    tip:'Kreise mit den Schultern — langsam, groß, bewusst. Spür wo es zieht, wo es knackt.'
+  },
+  v:{
+    h:'Viszeral — Leber · Gallenblase',
+    t:'Die rechte Schulter hängt über die Leberkapsel direkt mit der Leber zusammen. Chronische Verspannung oder Schmerz in der rechten Schulter ohne strukturellen Befund ist oft ein Leber-Gallen-Signal.',
+    tip:'Schmerzt die rechte Schulter chronisch ohne Befund? Denk an die Leber.'
+  },
+  c:{
+    h:'Craniosacral — Stammhirn · Hirnnerven · Schutzreflex',
+    t:'Einige Schultermuskeln werden direkt über Hirnnerven innerviert — direkte Verbindung zum Stammhirn. Das Hochziehen der Schultern ist ein uralter Schutzreflex. Das Nervensystem muss zuerst Sicherheit spüren bevor die Schultern wirklich loslassen.',
+    tip:'Lass die Schultern fallen — nicht einmal, sondern zehnmal am Tag. Sicherheit schlägt Willenskraft.'
+  }
+},
+
+haende:{
+  label:'Hände',
+  badge:'',
+  p:{
+    h:'Parietal — HWS · BWS · Homunkulus',
+    t:'27 Knochen, unzählige Gelenke und Sehnen. Innervation aus der HWS, vegetative Versorgung aus der BWS. Im sensorischen Kortex nehmen die Hände einen unverhältnismäßig großen Raum ein — der Homunkulus zeigt es eindrücklich.',
+    tip:'Kribbeln oder Taubheit in den Händen — schau auf HWS, Schulter und BWS bevor du an den Karpaltunnel denkst.'
+  },
+  v:{
+    h:'Viszeral — Schultergürtel · Lymphe · Engpässe',
+    t:'Nerven und Lymphgefäße müssen den Schultergürtel passieren, zwischen Pektoralis und den ersten beiden Rippen hindurch, dann durch Achselhöhle, Ellenbogen und Karpaltunnel. Schulter- und Brustkorb-Haltung bestimmt wie frei diese Leitungsbahnen sind.',
+    tip:'Chronisch kalte Hände? Öffne den Brustkorb. Der Engpass liegt meist höher als die Symptome.'
+  },
+  c:{
+    h:'Craniosacral — Langer Nervenweg · Begreifen · Loslassen',
+    t:'Der periphere Nerv legt einen langen Weg zurück — von der Schädelbasis bis in die Fingerspitzen. Manches braucht einen langen Weg bevor es wirklich ankommt. Bevor wir wirklich be-greifen. Chronische Anspannung in den Händen ist oft das Zeichen dass wir zu viel festhalten wollen. Was darfst du loslassen?',
+    tip:'Öffne die Hände ganz weit — alle Finger gestreckt, Handflächen nach oben. Halte 5 Sekunden. Dann komplett loslassen. Dreimal wiederholen.'
+  }
+},
+
+oberbauch:{
+  label:'Oberbauch',
+  badge:'',
+  p:{
+    h:'Parietal — Zwerchfell · C3 · Faszienverbindungen',
+    t:'Der Zwerchfellnerv kommt hauptsächlich aus C3 — eine blockierte HWS ist immer auch ein Atemthema. Die Leber liegt unter dem rechten Rippenbogen und ist über Faszien direkt mit der rechten Schulter verbunden. Der Magen zieht über seine Faszien zur linken Schulter.',
+    tip:'Schmerzt die rechte Schulter ohne Befund? Frag dich wann du zuletzt deine Leber entlastet hast.'
+  },
+  v:{
+    h:'Viszeral — Leber · Galle · Magen · Lymphe',
+    t:'Leber, Gallenblase, Magen und Bauchspeicheldrüse. Die Leber verarbeitet Hormone, Giftstoffe und Emotionen. Die Gallenblase — wem ist die Galle übergelaufen? Der Magen ist stresssensibel wie kein anderes Organ. Was hast du noch nicht verdaut? Was macht dich wirklich sauer?',
+    tip:'Bittere Lebensmittel — Rucola, Artischocke, Löwenzahn — regen Leber und Gallenfluss direkt an.'
+  },
+  c:{
+    h:'Craniosacral — Solarplexus · Bauchgehirn · Atem',
+    t:'Im Oberbauch liegt der Solarplexus — das größte Nervengeflecht des vegetativen Nervensystems außerhalb des Gehirns. Wenn das Zwerchfell durch Stress hochgezogen wird und die Atmung flach bleibt interpretiert das Gehirn dies als Gefahrensignal.',
+    tip:'Leg eine Hand auf den Oberbauch und atme bewusst dorthin. Wenn das Zwerchfell loslässt, lässt das Nervensystem los.'
+  }
+},
+
+unterbauch:{
+  label:'Unterbauch',
+  badge:'',
+  p:{
+    h:'Parietal — Beckenboden · LWS · Stabilität',
+    t:'Chronische Spannung im Unterbauch verändert die Statik von LWS und Becken. Der Beckenboden arbeitet mit Zwerchfell, tiefen Bauchmuskeln und Rückenmuskeln als ein System.',
+    tip:'Atme tief in den Unterbauch und lass beim Ausatmen den Beckenboden bewusst los. Viele Menschen haben keinen Zugang mehr zu diesem Loslassen.'
+  },
+  v:{
+    h:'Viszeral — Darmgehirn · Intoleranzen · Immunsystem',
+    t:'Der Darm ist das größte Immunorgan — er entscheidet was von außen nach innen darf. Das Darmgehirn mit über 100 Millionen Neuronen kommuniziert direkt mit dem Gehirn. Reizdarm ist fast immer auch ein Nervensystemthema.',
+    tip:'Reizdarm bessert sich selten nur durch Ernährungsumstellung. Schau gleichzeitig auf das Nervensystem.'
+  },
+  c:{
+    h:'Craniosacral — Sicherheit · Scham · Empfangen',
+    t:'Der Unterbauch ist das tiefste emotionale Zentrum — Sitz von Sicherheit und Urvertrauen. Die Blase reagiert auf Angst und Kontrollverlust. Der gynäkologische Bereich trägt Empfangen, Leben erschaffen, Weiblichkeit. Scham sitzt häufig hier.',
+    tip:'Leg beide Hände auf den Unterbauch. Atme warm dorthin — als würdest du diesem Bereich sagen: du darfst sein.'
+  }
+},
+
+huefte:{
+  label:'Hüfte',
+  badge:'',
+  p:{
+    h:'Parietal — Kugelgelenk · Wirbelsäule · Beinachse',
+    t:'Eines der stabilsten Kugelgelenke des Körpers. Die Hüftstellung beeinflusst direkt Knie und Fuß sowie die gesamte Wirbelsäule.',
+    tip:'Steh auf einem Bein — 30 Sekunden. Wackelt die Hüfte? Dreht das Knie nach innen?'
+  },
+  v:{
+    h:'Viszeral — Urogenitaltrakt · Blase · Hüftschnupfen',
+    t:'Die Hüfte ist über fasziale Verbindungen mit dem urogenitalen Trakt verbunden. Hüftschnupfen — Entzündung der Hüftgelenkschleimhaut — tritt häufig nach langen Stressphasen auf.',
+    tip:'Hüftschmerzen nach einer langen Stressphase? Das könnte ein Hüftschnupfen sein — eine Entzündung die von innen kommt.'
+  },
+  c:{
+    h:'Craniosacral — Psoas · Angst · Sicherheit',
+    t:'Der Psoas ist einer der wenigen Muskeln der von vorne nach hinten zieht. Bei Gefahr zieht er den Körper in die Schutzstellung. Hüftenge ist kein Dehnungsproblem — es ist ein Sicherheitsproblem.',
+    tip:'Sanftes Schaukeln im Liegen — das Nervensystem muss zuerst Sicherheit spüren bevor der Psoas loslässt.'
+  }
+},
+
+knie:{
+  label:'Knie',
+  badge:'',
+  p:{
+    h:'Parietal — Scharniergelenk · Bänder · Menisken',
+    t:'Scharniergelenk mit Kreuzbändern, Seitenbändern und Menisken. Das Knie sitzt zwischen Hüfte und Fuß und muss sich nach zwei anderen Gelenken richten. Knieschmerzen ohne Trauma beginnen fast immer woanders.',
+    tip:'Knieschmerzen ohne Trauma? Schau zuerst auf Hüfte und Fuß.'
+  },
+  v:{
+    h:'Viszeral — L3-L5 · Lymphe · Bauchorgane',
+    t:'Im Versorgungsgebiet von L3 bis L5. Bauchorgane und Nieren können über die LWS bis ins Knie ausstrahlen. Die Kniekehle ist ein wichtiger Lymphknoten.',
+    tip:'Chronische Kniebeschwerden die nicht ansprechen? Lass LWS und Bauchorgane mitbefunden.'
+  },
+  c:{
+    h:'Craniosacral — Flexibilität · Stand · Durchbeißen',
+    t:'Das Knie steht für Flexibilität im Leben — sich beugen ohne zu brechen. Wer nie nachgibt wird starr. Wer immer nachgibt verliert den Stand. Manchmal hat das Leben uns buchstäblich in die Knie gezwungen.',
+    tip:'Steh bewusst auf beiden Beinen — gleichmäßig, Knie leicht weich. Spür den Boden unter dir.'
+  }
+},
+
+fuesse:{
+  label:'Füße',
+  badge:'',
+  p:{
+    h:'Parietal — Fußgewölbe · Plantarfaszie · Sakralnerven',
+    t:'26 Knochen, 33 Gelenke, über 100 Muskeln. Die drei Fußgewölbe federn aktiv jeden Schritt ab. Die Plantarfaszie hält das Längsgewölbe zusammen. Der große Wadenmuskel wird von den letzten Lendenwirbeln und Sakralnerven innerviert.',
+    tip:'Fersensporn trotz Einlagen? Die Ursache sitzt meist höher — Plantarfaszie, Wade, LWS.'
+  },
+  v:{
+    h:'Viszeral — Reflexzonen · Organspiegel · Haut',
+    t:'In der Fußreflexzonentherapie ist der Fuß der Spiegel aller Organe. Schmerzen, Schwellungen oder Hautveränderungen an bestimmten Fußzonen korrelieren mit Organbeschwerden. Trockene rissige Fersen können auf Nieren- oder Schilddrüsenprobleme hinweisen.',
+    tip:'Schau dir deine Fußsohlen an — gibt es Druckstellen, Hornhaut, Risse? Diese Orte sind keine Zufälle.'
+  },
+  c:{
+    h:'Craniosacral — Erdung · Getragen werden · Last',
+    t:'Die Füße stehen für Erdung, Verwurzelung, das Gefühl getragen zu werden. Ein eingesunkenes Fußgewölbe deutet auf eine Last hin die zu groß geworden ist. Der Fuß ist das Ende und der Anfang.',
+    tip:'Geh barfuß auf unebenem Untergrund. Dein Nervensystem braucht die Erfahrung dass der Boden trägt — auch wenn er uneben ist.'
+  }
+},
+
+/* ═══ RÜCKSEITE ═══ */
+
+nacken:{
+  label:'Nacken & HWS',
+  badge:'',
+  p:{
+    h:'Parietal — 7 Wirbel · Atemhilfsmuskeln · Hirnnerven',
+    t:'7 Wirbel, besondere Struktur. Trägt den Kopf. Zwerchfellnerv kommt hauptsächlich aus C3. Atemhilfsmuskeln werden unter Stress zur Hauptatemmuskulatur — erschöpft sie und erzeugt Dauerdruck. Muskeln über Hirnnerven innerviert — direkte Stammhirnverbindung.',
+    tip:'Atme tief in den Bauch — spür wie die Nackenspannung nachlässt. Wenn das Zwerchfell arbeitet müssen die Nackenmuskeln nicht mehr atmen.'
+  },
+  v:{
+    h:'Viszeral — Speiseröhre · Luftröhre · Thorax',
+    t:'Speiseröhre und Luftröhre verbinden Kopf und Thorax. Spannungen in der Halsmuskulatur beeinflussen wie frei diese schwingen können.',
+    tip:'Schluck bewusst leer. Wenn Schlucken Anstrengung kostet ist das ein Signal.'
+  },
+  c:{
+    h:'Craniosacral — Atlas · Dura · Angst',
+    t:'Atlas und Axis — die einzigen Wirbel an denen die Hirnhäute direkt anheften. Eine Blockierung hier beeinflusst den Liquorfluss bis zum Kreuzbein. Die Angst sitzt buchstäblich im Nacken. Welche Angst ist das bei dir?',
+    tip:'Lege eine Hand sanft in den Nacken — warm, ohne Druck. Der Nacken braucht Wärme und die Erlaubnis loszulassen.'
+  }
+},
+
+bws:{
+  label:'Brustwirbelsäule',
+  badge:'',
+  p:{
+    h:'Parietal — 12 Wirbel · Rippen · Beweglichkeit',
+    t:'12 Wirbel, jeder mit zwei Rippengelenken. Beweglichkeit herabgesetzt weil Herz und Lunge geschützt werden. Steife BWS schränkt Schultern, Atmung und Zwerchfell mit ein.',
+    tip:'Drehe den Oberkörper langsam nach rechts und links — nur aus der BWS. Wo blockiert es?'
+  },
+  v:{
+    h:'Viszeral — Herz · Lunge · Sympathikus',
+    t:'Schutzhülle für Herz und Lunge. Beide hängen über Faszien an der BWS. Sympathischer Grenzstrang verläuft entlang der BWS.',
+    tip:'Rolle ein Handtuch quer unter die BWS im Liegen. Atme tief ein. Fünf Minuten täglich mobilisiert sanft.'
+  },
+  c:{
+    h:'Craniosacral — Sympathikus · Gedanken · Kreislauf',
+    t:'Gedanken, Mindset, Trigger können über den Sympathikus direkt zu BWS-Blockaden führen. Eine blockierte BWS schränkt die Atemtiefe ein. Eingeschränkte Atmung signalisiert Gefahr. Gefahr aktiviert den Sympathikus. Ein Kreislauf der sich selbst am Laufen hält.',
+    tip:'Wenn die Atmung flach wird und Angst steigt — atme bewusst in den Rücken. Das unterbricht den Kreislauf.'
+  }
+},
+
+schulterblaetter:{
+  label:'Schulterblätter',
+  badge:'',
+  p:{
+    h:'Parietal — Züge aus allen Richtungen · Schultergelenk · Symmetrie',
+    t:'Symmetrisch angelegt, Teil des Schultergelenks. Bekommen Züge aus allen Richtungen gleichzeitig. Ein erfahrenes Auge kann an der Stellung ablesen wo im Körper Spannung sitzt. Die Schulterblätter lügen nicht.',
+    tip:'Steh vor einem Spiegel — sind die Schulterblätter symmetrisch? Steht eines weiter ab? Das sind keine Zufälle.'
+  },
+  v:{
+    h:'Viszeral — Reflexzonen · Magen · Leber · Herz',
+    t:'Linkes Schulterblatt = Magenzone. Rechtes Schulterblatt = Leber-Bindegewebszone. Zwischen den Schulterblättern = Herzzone. Je nachdem woher die Züge kommen stehen die Schulterblätter unterschiedlich.',
+    tip:'Chronische Verspannung unter dem rechten Schulterblatt? Denk an die Leber. Links zwischen Schulterblatt und Wirbelsäule? Frag deinen Magen.'
+  },
+  c:{
+    h:'Craniosacral — Sympathikus · Embryonalstellung · Schutz',
+    t:'Entlang der BWS verläuft der sympathische Grenzstrang. Bei Angst, Kälte, Unwohlsein: Schultern hochziehen, Schulterblätter auseinander, Körper rundet sich — Embryonalstellung. Chronisch hochgezogene Schulterblätter sind ein Nervensystem das noch nicht angekommen ist.',
+    tip:'Öffne den Raum zwischen den Schulterblättern durch Ausatmen — nicht durch Kraft. Stell dir vor der Rücken wird weit und warm.'
+  }
+},
+
+lws:{
+  label:'Lendenwirbelsäule',
+  badge:'',
+  p:{
+    h:'Parietal — 5 Wirbel · Sakrum · Rückenfaszie',
+    t:'5 große Wirbel — viel Last tragen. Dichtes Bandnetz zum Sakrum. Thorakolumbale Faszie — eine der größten Faszien des Körpers. Stress aktiviert über Faszienspannung direkt die LWS.',
+    tip:'Leg dich auf den Rücken, Knie angewinkelt. Atme tief in den Bauch. Lässt die LWS dabei los?'
+  },
+  v:{
+    h:'Viszeral — Nieren · Darm · Gynäkologie',
+    t:'Nieren liegen direkt vor den Lendenwirbeln. Gesamtes Darmpaket hängt an der LWS. Gynäkologischer Bereich, Blase, Uterus haben fasziale Verbindungen. LWS-Schmerz ohne Befund ist fast immer ein viszeral-faszialer Befund.',
+    tip:'Chronische LWS-Schmerzen die nicht ansprechen? Lass Nieren, Darm und gynäkologischen Bereich mitbefunden.'
+  },
+  c:{
+    h:'Craniosacral — Fundament · Angst · Seelenaufgaben',
+    t:'Jedem Wirbel wird eine Seelenaufgabe zugeordnet: Warum bin ich hier? Was ist mein Weg? Bin ich sicher? Wenn das innere Fundament fehlt zeigt sich das buchstäblich im Rücken. Scham, Perfektionismus, über die eigenen Grenzen gehen — alles sammelt sich hier.',
+    tip:'Lege eine warme Hand auf die LWS. Frag dich: Wo fehlt mir gerade das Fundament?'
+  }
+},
+
+becken:{
+  label:'Becken & Kreuzbein',
+  badge:'',
+  p:{
+    h:'Parietal — Schale · Symphyse · ISG · Beckenboden',
+    t:'Kreuzbein und Beckenschaufeln bilden eine Schale. Symphyse vorne, ISG hinten. Beckenboden als mehrschichtiges System. Zusammen mit Bauch, Rücken und Zwerchfell stabilisiert es den Rumpf.',
+    tip:'Atme tief in den Bauch und lass beim Ausatmen den Beckenboden bewusst los. Kannst du das?'
+  },
+  v:{
+    h:'Viszeral — Gynäkologie · Darm · Beckenboden',
+    t:'Gynäkologisches Paket mit Bandverbindungen zum Kreuzbein. Darm kann ins Becken absinken. Beckenboden hält dagegen — braucht aber auch Loslassen.',
+    tip:'Beckenbodenschwäche ist nicht immer zu wenig Spannung — oft ist es zu viel.'
+  },
+  c:{
+    h:'Craniosacral — Dura · Ganglien · Wurzel',
+    t:'Dura heftet am Kreuzbein an — zieht bis zum Okziput. Schiefstellung des Kreuzbeins kann Kopfschmerzen auslösen. Wurzel- und Sakralchakra: Scham, Schuld, Sexualität, Grenzen, Empfangen, Loslassen.',
+    tip:'Sitz aufrecht, spür dein Sitzbein. Atme warm ins Becken. Das Becken braucht keine Anspannung — es braucht Vertrauen.'
+  }
+},
+
+oberschenkel:{
+  label:'Oberschenkel',
+  badge:'',
+  p:{
+    h:'Parietal — L1-L5 Landkarte · Beckenbasis · Beinachse',
+    t:'Leiste = L1, Innenseite = L2/L3, übers Knie = L4, seitlich Unterschenkel = L5. Kennmuskel L3. Beckenstellung beeinflusst Oberschenkelstellung.',
+    tip:'Wo genau tut der Oberschenkel weh? Die genaue Lokalisation zeigt welcher Nerv aus der LWS betroffen sein könnte.'
+  },
+  v:{
+    h:'Viszeral — Leiste · Adduktorenkanal · Niere',
+    t:'Leiste als wichtigste Durchgangszone. Adduktorenkanal an der Innenseite. Niere und Bauchorgane über LWS. Lymphstau bei schlechtem Bauchtraining.',
+    tip:'Schwere müde Beine ohne Ursache? Schau auf die Leiste und auf die Nieren.'
+  },
+  c:{
+    h:'Craniosacral — Ischias · Vorwärtskommen · Stillstand',
+    t:'Ischiadicus an der Rückseite. Vorwärtskommen, Schritt machen, Stillstand. Stehst du auf beiden Beinen im Leben?',
+    tip:'Geh bewusst — spür jeden Schritt. Wann bist du das letzte Mal wirklich vorwärtsgegangen?'
+  }
+},
+
+wade:{
+  label:'Wade',
+  badge:'',
+  p:{
+    h:'Parietal — Tibia · Fibula · Nervus peroneus',
+    t:'Zwei Knochen mit Syndesmose. Nervus peroneus am Fibulaköpfchen — häufig eingeklemmt. Leitet alles vom Fuß nach oben.',
+    tip:'Kribbeln im Fuß? Prüf das Fibulaköpfchen — ein kurzer Druck dort kann alles erklären.'
+  },
+  v:{
+    h:'Viszeral — Zweites Herz · Kreislauf · Stauung',
+    t:'Pumpt venöses Blut aktiv nach oben. Herzschwäche zeigt sich in geschwollenen Waden. Krampfadern, Bauchstauung.',
+    tip:'Schwere geschwollene Waden abends? Fast immer Kreislauf- und Lymphthema.'
+  },
+  c:{
+    h:'Craniosacral — Unsicheres Terrain · Stabilisierung · Nervensystem',
+    t:'Chronisch verspannte Waden — das Nervensystem ist ständig auf unsicherem Terrain. Wadenkrämpfe nachts: der Körper stabilisiert obwohl er längst ruhen dürfte.',
+    tip:'Geh barfuß auf unebenem Untergrund. Dein Nervensystem braucht die Erfahrung dass der Boden trägt.'
+  }
+}
+
+}; /* end ZONES */
+
+/* ═══ LOGIC ═══ */
+
+let activeZone = null;
+let activeEl = null;
+
+function showView(view){
+  document.getElementById('view-front').style.display = view==='front'?'flex':'none';
+  document.getElementById('view-back').style.display  = view==='back' ?'flex':'none';
+  document.getElementById('btn-front').classList.toggle('active', view==='front');
+  document.getElementById('btn-back').classList.toggle('active',  view==='back');
+  if(activeEl){ activeEl.classList.remove('active'); activeEl=null; }
+  closeCard();
+}
+
+function selectZone(el){
+  const zoneId = el.getAttribute('data-zone');
+  const data   = ZONES[zoneId];
+  if(!data) return;
+
+  // clear previous
+  if(activeEl) activeEl.classList.remove('active');
+  el.classList.add('active');
+  activeEl = el;
+
+  // fill card
+  document.getElementById('card-title').textContent = data.label;
+  document.getElementById('card-badge').textContent = data.badge || '';
+
+  document.getElementById('p-header').textContent = data.p.h;
+  document.getElementById('p-text').textContent   = data.p.t;
+  document.getElementById('p-tip').textContent    = data.p.tip;
+
+  document.getElementById('v-header').textContent = data.v.h;
+  document.getElementById('v-text').textContent   = data.v.t;
+  document.getElementById('v-tip').textContent    = data.v.tip;
+
+  document.getElementById('c-header').textContent = data.c.h;
+  document.getElementById('c-text').textContent   = data.c.t;
+  document.getElementById('c-tip').textContent    = data.c.tip;
+
+  const card = document.getElementById('info-card');
+  card.classList.add('visible');
+  setTimeout(()=>card.scrollIntoView({behavior:'smooth',block:'start'}),50);
+}
+
+function closeCard(){
+  document.getElementById('info-card').classList.remove('visible');
+  if(activeEl){ activeEl.classList.remove('active'); activeEl=null; }
+  document.querySelector('.body-wrap:not([style*="none"]),#view-front,#view-back')
+    ?.scrollIntoView({behavior:'smooth',block:'start'});
+}
+</script>
+</body>
+</html>
