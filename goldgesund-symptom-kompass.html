@@ -64,7 +64,8 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 /* INFO CARD */
 .info-card{display:none;margin-bottom:40px}
 .info-card.visible{display:block}
-.info-zone-title{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:4px;line-height:1.3}
+.info-zone-title{font-size:20px;font-weight:700;color:var(--dark);margin-bottom:6px;line-height:1.3}
+.info-zone-subtitle{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:8px;font-style:italic}
 .info-zone-badge{font-size:11px;color:var(--muted);margin-bottom:20px;display:block}
 
 .pillar{border-radius:14px;overflow:hidden;margin-bottom:14px}
@@ -130,31 +131,44 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 <div class="body-wrap" id="view-front">
 <svg viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- BODY OUTLINE FRONT -->
-  <!-- Head -->
-  <circle cx="100" cy="33" r="27" class="body-outline"/>
-  <!-- Hair hint -->
-  <path d="M73,22 Q100,8 127,22" fill="none" stroke="#b8b0a0" stroke-width="1.5" stroke-linecap="round"/>
-  <!-- Neck -->
-  <path d="M90,59 L90,74 Q100,78 110,74 L110,59" class="body-outline"/>
-  <!-- Torso + legs -->
+  <!-- HAAR (lang, bis Brust, hinter Körper) -->
+  <path d="M87,10 Q82,18 80,30 L78,55 Q77,80 77,104 Q77,124 79,142 Q81,152 86,155 Q88,153 87,140 Q86,124 87,103 Q88,80 90,60 L91,52 L109,52 L110,60 Q112,80 113,103 Q114,124 113,140 Q112,153 114,155 Q119,152 121,142 Q123,124 123,104 Q123,80 122,55 L120,30 Q118,18 113,10 Q100,4 87,10 Z" fill="#9e8878" opacity=".80"/>
+  <!-- Kopf -->
+  <ellipse cx="100" cy="30" rx="20" ry="23" class="body-outline"/>
+  <!-- Hals -->
+  <path d="M91,52 L89,68 Q100,74 111,68 L109,52" fill="#f0ece4"/>
+  <!-- Körper — ein durchgehender Pfad (Schultern, Arme, Taille, Hüfte, Beine) -->
   <path d="
-    M90,74 Q100,78 110,74
-    C118,72 132,76 144,85
-    C156,94 162,108 160,122
-    L152,195 C150,212 152,228 154,245
-    L148,425 L128,425 L124,245
-    Q116,252 108,254 Q100,255 92,254 Q84,252 76,245
-    L72,425 L52,425 L46,245
-    C48,228 50,212 48,195
-    L40,122
-    C38,108 44,94 56,85
-    C68,76 82,72 90,74Z
+    M 111,68
+    C 124,66 142,71 154,81
+    C 162,91 166,107 165,124 C 165,142 164,160 163,177
+    C 162,193 160,208 159,222 C 158,230 157,237 155,244
+    Q 154,251 152,253 Q 149,252 148,244
+    C 148,236 148,224 148,208 C 148,192 148,175 147,159
+    C 146,143 143,129 137,117 C 133,107 126,101 119,101
+    C 130,103 139,115 141,131 C 143,145 139,160 133,170
+    C 127,180 122,192 121,208 C 120,222 122,234 128,246
+    C 132,255 135,264 134,272
+    C 132,284 129,298 128,314 C 127,330 128,346 129,362
+    C 130,376 130,390 128,404 C 127,414 128,424 131,431
+    C 134,437 139,440 145,441 L 110,442 L 90,442 L 55,441
+    C 61,440 66,437 69,431 C 72,424 73,414 72,404
+    C 70,390 70,376 71,362 C 72,346 73,330 72,314
+    C 71,298 68,284 66,272
+    C 65,264 68,255 72,246 C 78,234 80,222 79,208
+    C 78,192 73,180 67,170 C 61,160 57,145 59,131
+    C 61,115 70,103 81,101
+    C 74,101 67,107 63,117 C 57,129 54,143 53,159
+    C 52,175 52,192 52,208 C 51,224 51,236 51,244
+    Q 50,252 47,253 Q 44,251 43,244
+    C 42,237 41,230 40,222 C 39,208 38,193 37,177
+    C 36,160 35,142 35,124 C 34,107 38,91 46,81
+    C 58,71 76,66 89,68 Z
   " class="body-outline"/>
-  <!-- Left arm -->
-  <path d="M56,85 C44,90 30,102 20,124 L16,218 Q18,228 28,228 Q38,228 40,218 L40,122" class="body-outline"/>
-  <!-- Right arm -->
-  <path d="M144,85 C156,90 170,102 180,124 L184,218 Q182,228 172,228 Q162,228 160,218 L160,122" class="body-outline"/>
+  <!-- Brust-Linie rechts (subtil) -->
+  <path d="M121,118 Q132,134 125,148" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".5"/>
+  <!-- Brust-Linie links (subtil) -->
+  <path d="M79,118 Q68,134 75,148" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".5"/>
 
   <!-- ════ CLICKABLE ZONES ════ -->
 
@@ -285,30 +299,46 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 <div class="body-wrap" id="view-back" style="display:none">
 <svg viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- BODY OUTLINE BACK -->
-  <circle cx="100" cy="33" r="27" class="body-outline"/>
-  <!-- Hair -->
-  <path d="M73,14 Q100,5 127,14 Q127,38 120,46 Q100,50 80,46 Q73,38 73,14Z" fill="#c8c0b0" opacity=".4"/>
-  <!-- Neck -->
-  <path d="M90,59 L90,74 Q100,78 110,74 L110,59" class="body-outline"/>
-  <!-- Torso + legs back -->
+  <!-- HAAR hinten (sehr prominent, fließend bis Taille) -->
+  <path d="M87,10 Q80,16 78,30 L75,55 Q73,82 73,110 Q73,135 76,157 Q79,171 83,177 Q88,177 87,162 Q86,145 87,121 Q88,96 90,68 L91,52 L109,52 L110,68 Q112,96 113,121 Q114,145 113,162 Q112,177 117,177 Q121,171 124,157 Q127,135 127,110 Q127,82 125,55 L122,30 Q120,16 113,10 Q100,4 87,10 Z" fill="#9e8878" opacity=".85"/>
+  <!-- Kopf -->
+  <ellipse cx="100" cy="30" rx="20" ry="23" class="body-outline"/>
+  <!-- Hals -->
+  <path d="M91,52 L89,68 Q100,74 111,68 L109,52" fill="#f0ece4"/>
+  <!-- Wirbelsäulen-Linie (subtil) -->
+  <path d="M100,74 Q100,140 100,200 Q100,235 100,271" fill="none" stroke="#c8c0b0" stroke-width="0.7" opacity=".45" stroke-dasharray="2,3"/>
+  <!-- Schulterblatt rechts (subtil) -->
+  <path d="M122,100 Q136,112 130,136 Q124,128 120,114 Z" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".45"/>
+  <!-- Schulterblatt links (subtil) -->
+  <path d="M78,100 Q64,112 70,136 Q76,128 80,114 Z" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".45"/>
+  <!-- Körper Rücken — ein durchgehender Pfad (Po etwas runder) -->
   <path d="
-    M90,74 Q100,78 110,74
-    C118,72 132,76 144,85
-    C156,94 162,108 160,122
-    L152,195 C150,212 152,228 154,245
-    L148,425 L128,425 L124,245
-    Q116,252 108,254 Q100,255 92,254 Q84,252 76,245
-    L72,425 L52,425 L46,245
-    C48,228 50,212 48,195
-    L40,122
-    C38,108 44,94 56,85
-    C68,76 82,72 90,74Z
+    M 111,68
+    C 124,66 142,71 154,81
+    C 162,91 166,107 165,124 C 165,142 164,160 163,177
+    C 162,193 160,208 159,222 C 158,230 157,237 155,244
+    Q 154,251 152,253 Q 149,252 148,244
+    C 148,236 148,224 148,208 C 148,192 148,175 147,159
+    C 146,143 143,129 137,117 C 133,107 126,101 119,101
+    C 130,103 140,116 142,133 C 144,148 140,164 134,175
+    C 128,185 122,197 121,214 C 120,229 124,244 131,257
+    C 136,266 138,275 136,283
+    C 133,296 130,310 128,326 C 127,342 128,358 129,374
+    C 130,388 130,402 128,416 C 127,426 128,434 132,441
+    C 135,446 140,448 146,449 L 110,449 L 90,449 L 54,449
+    C 60,448 65,446 68,441 C 72,434 73,426 72,416
+    C 70,402 70,388 71,374 C 72,358 73,342 72,326
+    C 70,310 67,296 64,283
+    C 62,275 64,266 69,257 C 76,244 80,229 79,214
+    C 78,197 72,185 66,175 C 60,164 56,148 58,133
+    C 60,116 70,103 81,101
+    C 74,101 67,107 63,117 C 57,129 54,143 53,159
+    C 52,175 52,192 52,208 C 51,224 51,236 51,244
+    Q 50,252 47,253 Q 44,251 43,244
+    C 42,237 41,230 40,222 C 39,208 38,193 37,177
+    C 36,160 35,142 35,124 C 34,107 38,91 46,81
+    C 58,71 76,66 89,68 Z
   " class="body-outline"/>
-  <!-- Left arm back -->
-  <path d="M56,85 C44,90 30,102 20,124 L16,218 Q18,228 28,228 Q38,228 40,218 L40,122" class="body-outline"/>
-  <!-- Right arm back -->
-  <path d="M144,85 C156,90 170,102 180,124 L184,218 Q182,228 172,228 Q162,228 160,218 L160,122" class="body-outline"/>
 
   <!-- ════ BACK ZONES ════ -->
 
@@ -381,6 +411,7 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 <div class="info-card" id="info-card">
   <button class="back-btn" onclick="closeCard()">← Zurück zur Körperkarte</button>
   <div class="info-zone-title" id="card-title"></div>
+  <p class="info-zone-subtitle" id="card-subtitle"></p>
   <span class="info-zone-badge" id="card-badge"></span>
 
   <div class="pillar pillar-p" id="pillar-p">
@@ -432,6 +463,7 @@ const ZONES = {
 
 kopf:{
   label:'Kopf',
+  title:'Nicht so starr wie wir denken — und viel mehr als ein Denkapparat',
   badge:'Säule 1 & 3',
   p:{
     h:'Parietal — Struktur · Schädel · Balance',
@@ -452,6 +484,7 @@ kopf:{
 
 augen:{
   label:'Augen',
+  title:'Was siehst du — und was willst du nicht sehen?',
   badge:'',
   p:{
     h:'Parietal — Schädel · Nacken · Augenhöhle',
@@ -472,6 +505,7 @@ augen:{
 
 ohren:{
   label:'Ohren',
+  title:'Was hörst du — und was willst du nicht hören?',
   badge:'',
   p:{
     h:'Parietal — Schläfenbein · Kiefer · Zähne',
@@ -492,6 +526,7 @@ ohren:{
 
 nase:{
   label:'Nase',
+  title:'Atemeingang, Erinnerungstor — und manchmal: die Schnauze voll haben',
   badge:'',
   p:{
     h:'Parietal — Schädelform · Nasennebenhöhlen · Struktur',
@@ -512,6 +547,7 @@ nase:{
 
 kiefer:{
   label:'Kiefer',
+  title:'Wo wir beißen, kauen, schlucken — und uns durchbeißen',
   badge:'',
   p:{
     h:'Parietal — Zwei Knochen · Masseter · Stress',
@@ -532,6 +568,7 @@ kiefer:{
 
 hals:{
   label:'Hals',
+  title:'Die Brücke zwischen Kopf und Herz — auf drei Ebenen',
   badge:'',
   p:{
     h:'Parietal — Halsfaszie · Halsorgane · Thorax',
@@ -552,6 +589,7 @@ hals:{
 
 brustkorb:{
   label:'Brustkorb',
+  title:'Schutz, Atem, Taktgeber — und Sitz von Trauer und Freude',
   badge:'',
   p:{
     h:'Parietal — Rippen · Gelenke · Zwerchfell',
@@ -572,6 +610,7 @@ brustkorb:{
 
 herz:{
   label:'Herz',
+  title:'Taktgeber, Emotionsspeicher — und das älteste Entscheidungszentrum',
   badge:'',
   p:{
     h:'Parietal — Sternum · BWS · Halsfaszie',
@@ -592,6 +631,7 @@ herz:{
 
 'schulter-links':{
   label:'Schulter links',
+  title:'Was tragen wir — und warum lassen wir es nicht fallen?',
   badge:'',
   p:{
     h:'Parietal — 5 Gelenke · HWS · BWS',
@@ -612,6 +652,7 @@ herz:{
 
 'schulter-rechts':{
   label:'Schulter rechts',
+  title:'Was tragen wir — und warum lassen wir es nicht fallen?',
   badge:'',
   p:{
     h:'Parietal — 5 Gelenke · HWS · BWS',
@@ -632,6 +673,7 @@ herz:{
 
 haende:{
   label:'Hände',
+  title:'Greifen, begreifen, loslassen — unser wichtigstes Werkzeug',
   badge:'',
   p:{
     h:'Parietal — HWS · BWS · Homunkulus',
@@ -652,6 +694,7 @@ haende:{
 
 oberbauch:{
   label:'Oberbauch',
+  title:'Was hast du noch nicht verdaut — und was macht dich sauer?',
   badge:'',
   p:{
     h:'Parietal — Zwerchfell · C3 · Faszienverbindungen',
@@ -672,6 +715,7 @@ oberbauch:{
 
 unterbauch:{
   label:'Unterbauch',
+  title:'Loslassen, empfangen, erschaffen — und was wir von außen nach innen lassen',
   badge:'',
   p:{
     h:'Parietal — Beckenboden · LWS · Stabilität',
@@ -692,6 +736,7 @@ unterbauch:{
 
 huefte:{
   label:'Hüfte',
+  title:'Stabiles Zentrum — und Ort wo Angst sich festsetzt',
   badge:'',
   p:{
     h:'Parietal — Kugelgelenk · Wirbelsäule · Beinachse',
@@ -712,6 +757,7 @@ huefte:{
 
 knie:{
   label:'Knie',
+  title:'Sitzt zwischen den Stühlen — und leidet unter dem was über und unter ihm passiert',
   badge:'',
   p:{
     h:'Parietal — Scharniergelenk · Bänder · Menisken',
@@ -732,6 +778,7 @@ knie:{
 
 fuesse:{
   label:'Füße',
+  title:'Fundament, Erdung, Kontakt — und der Spiegel aller Organe',
   badge:'',
   p:{
     h:'Parietal — Fußgewölbe · Plantarfaszie · Sakralnerven',
@@ -754,6 +801,7 @@ fuesse:{
 
 nacken:{
   label:'Nacken & HWS',
+  title:'Die Angst sitzt im Nacken — und das ist keine Metapher',
   badge:'',
   p:{
     h:'Parietal — 7 Wirbel · Atemhilfsmuskeln · Hirnnerven',
@@ -774,6 +822,7 @@ nacken:{
 
 bws:{
   label:'Brustwirbelsäule',
+  title:'Schutz, Atem, Nervensystem — die Mitte die alles verbindet',
   badge:'',
   p:{
     h:'Parietal — 12 Wirbel · Rippen · Beweglichkeit',
@@ -794,6 +843,7 @@ bws:{
 
 schulterblaetter:{
   label:'Schulterblätter',
+  title:'Eine Landkarte des Körpers — wer lesen kann sieht alles',
   badge:'',
   p:{
     h:'Parietal — Züge aus allen Richtungen · Schultergelenk · Symmetrie',
@@ -814,6 +864,7 @@ schulterblaetter:{
 
 lws:{
   label:'Lendenwirbelsäule',
+  title:'Das Rückgrat — im wörtlichen und im übertragenen Sinn',
   badge:'',
   p:{
     h:'Parietal — 5 Wirbel · Sakrum · Rückenfaszie',
@@ -834,6 +885,7 @@ lws:{
 
 becken:{
   label:'Becken & Kreuzbein',
+  title:'Die Schale des Körpers — Fundament, Ursprung und tiefstes emotionales Zentrum',
   badge:'',
   p:{
     h:'Parietal — Schale · Symphyse · ISG · Beckenboden',
@@ -854,6 +906,7 @@ becken:{
 
 oberschenkel:{
   label:'Oberschenkel',
+  title:'Eine Landkarte der Lendenwirbelsäule — und ob du auf beiden Beinen stehst',
   badge:'',
   p:{
     h:'Parietal — L1-L5 Landkarte · Beckenbasis · Beinachse',
@@ -874,6 +927,7 @@ oberschenkel:{
 
 wade:{
   label:'Wade',
+  title:'Das zweite Herz — und die erste Stabilisatorin bei unsicherem Terrain',
   badge:'',
   p:{
     h:'Parietal — Tibia · Fibula · Nervus peroneus',
@@ -920,6 +974,7 @@ function selectZone(el){
 
   // fill card
   document.getElementById('card-title').textContent = data.label;
+  document.getElementById('card-subtitle').textContent = data.title || '';
   document.getElementById('card-badge').textContent = data.badge || '';
 
   document.getElementById('p-header').textContent = data.p.h;
