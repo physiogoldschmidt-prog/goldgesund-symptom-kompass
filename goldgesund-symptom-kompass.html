@@ -55,8 +55,8 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 .zone{cursor:pointer;transition:all .15s}
 .zone-shape{fill:transparent;stroke:transparent;stroke-width:1}
 .zone:hover .zone-shape,.zone.active .zone-shape{fill:rgba(200,150,62,0.22);stroke:var(--gold);stroke-width:1.5}
-.zone-label{font-size:7px;fill:var(--muted);text-anchor:middle;pointer-events:none;font-family:var(--font);transition:fill .15s}
-.zone:hover .zone-label,.zone.active .zone-label{fill:var(--gold);font-weight:600}
+.zone-label{font-size:8px;fill:white;text-anchor:middle;pointer-events:none;font-family:var(--font);font-weight:600;transition:fill .15s;paint-order:stroke;stroke:rgba(0,0,0,0.4);stroke-width:2px}
+.zone:hover .zone-label,.zone.active .zone-label{fill:var(--gold)}
 
 /* HINT */
 .body-hint{text-align:center;font-size:12px;color:var(--muted);margin-bottom:20px;opacity:.7}
@@ -131,165 +131,136 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 <div class="body-wrap" id="view-front">
 <svg viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- HAAR (lang, bis Brust, hinter Körper) -->
-  <path d="M87,10 Q82,18 80,30 L78,55 Q77,80 77,104 Q77,124 79,142 Q81,152 86,155 Q88,153 87,140 Q86,124 87,103 Q88,80 90,60 L91,52 L109,52 L110,60 Q112,80 113,103 Q114,124 113,140 Q112,153 114,155 Q119,152 121,142 Q123,124 123,104 Q123,80 122,55 L120,30 Q118,18 113,10 Q100,4 87,10 Z" fill="#9e8878" opacity=".80"/>
-  <!-- Kopf -->
-  <ellipse cx="100" cy="30" rx="20" ry="23" class="body-outline"/>
-  <!-- Hals -->
-  <path d="M91,52 L89,68 Q100,74 111,68 L109,52" fill="#f0ece4"/>
-  <!-- Körper — ein durchgehender Pfad (Schultern, Arme, Taille, Hüfte, Beine) -->
-  <path d="
-    M 111,68
-    C 124,66 142,71 154,81
-    C 162,91 166,107 165,124 C 165,142 164,160 163,177
-    C 162,193 160,208 159,222 C 158,230 157,237 155,244
-    Q 154,251 152,253 Q 149,252 148,244
-    C 148,236 148,224 148,208 C 148,192 148,175 147,159
-    C 146,143 143,129 137,117 C 133,107 126,101 119,101
-    C 130,103 139,115 141,131 C 143,145 139,160 133,170
-    C 127,180 122,192 121,208 C 120,222 122,234 128,246
-    C 132,255 135,264 134,272
-    C 132,284 129,298 128,314 C 127,330 128,346 129,362
-    C 130,376 130,390 128,404 C 127,414 128,424 131,431
-    C 134,437 139,440 145,441 L 110,442 L 90,442 L 55,441
-    C 61,440 66,437 69,431 C 72,424 73,414 72,404
-    C 70,390 70,376 71,362 C 72,346 73,330 72,314
-    C 71,298 68,284 66,272
-    C 65,264 68,255 72,246 C 78,234 80,222 79,208
-    C 78,192 73,180 67,170 C 61,160 57,145 59,131
-    C 61,115 70,103 81,101
-    C 74,101 67,107 63,117 C 57,129 54,143 53,159
-    C 52,175 52,192 52,208 C 51,224 51,236 51,244
-    Q 50,252 47,253 Q 44,251 43,244
-    C 42,237 41,230 40,222 C 39,208 38,193 37,177
-    C 36,160 35,142 35,124 C 34,107 38,91 46,81
-    C 58,71 76,66 89,68 Z
-  " class="body-outline"/>
-  <!-- Brust-Linie rechts (subtil) -->
-  <path d="M121,118 Q132,134 125,148" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".5"/>
-  <!-- Brust-Linie links (subtil) -->
-  <path d="M79,118 Q68,134 75,148" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".5"/>
+  <defs>
+    <clipPath id="frontClip">
+      <rect x="0" y="0" width="200" height="460"/>
+    </clipPath>
+  </defs>
+  <!-- Lisa Foto Vorderseite -->
+  <image href="lisa.jpg" x="-24" y="0" width="248" height="460" preserveAspectRatio="none" clip-path="url(#frontClip)"/>
 
   <!-- ════ CLICKABLE ZONES ════ -->
 
   <!-- KOPF -->
   <g class="zone" data-zone="kopf" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="24" rx="20" ry="14"/>
-    <text class="zone-label" x="100" y="16">Kopf</text>
+    <ellipse class="zone-shape" cx="100" cy="68" rx="24" ry="34"/>
+    <text class="zone-label" x="100" y="46">Kopf</text>
   </g>
 
   <!-- AUGEN -->
   <g class="zone" data-zone="augen" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="31" rx="18" ry="7"/>
-    <text class="zone-label" x="100" y="29">Augen</text>
+    <ellipse class="zone-shape" cx="100" cy="53" rx="22" ry="6"/>
+    <text class="zone-label" x="100" y="57">Augen</text>
   </g>
 
   <!-- OHREN -->
   <g class="zone" data-zone="ohren" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="75" cy="34" rx="6" ry="9"/>
-    <ellipse class="zone-shape" cx="125" cy="34" rx="6" ry="9"/>
-    <text class="zone-label" x="100" y="55">Ohren</text>
+    <ellipse class="zone-shape" cx="68" cy="58" rx="8" ry="11"/>
+    <ellipse class="zone-shape" cx="132" cy="58" rx="8" ry="11"/>
+    <text class="zone-label" x="68" y="62">Ohr L</text>
+    <text class="zone-label" x="132" y="62">Ohr R</text>
   </g>
 
   <!-- NASE -->
   <g class="zone" data-zone="nase" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="38" rx="7" ry="8"/>
-    <text class="zone-label" x="100" y="48">Nase</text>
+    <ellipse class="zone-shape" cx="100" cy="77" rx="8" ry="9"/>
+    <text class="zone-label" x="100" y="81">Nase</text>
   </g>
 
   <!-- KIEFER -->
   <g class="zone" data-zone="kiefer" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="51" rx="20" ry="9"/>
-    <text class="zone-label" x="100" y="51">Kiefer</text>
+    <ellipse class="zone-shape" cx="100" cy="105" rx="19" ry="9"/>
+    <text class="zone-label" x="100" y="109">Kiefer</text>
   </g>
 
   <!-- HALS -->
   <g class="zone" data-zone="hals" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="70" rx="13" ry="10"/>
-    <text class="zone-label" x="100" y="70">Hals</text>
+    <ellipse class="zone-shape" cx="100" cy="126" rx="12" ry="9"/>
+    <text class="zone-label" x="100" y="130">Hals</text>
   </g>
 
   <!-- SCHULTER LINKS -->
   <g class="zone" data-zone="schulter-links" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="58" cy="92" rx="18" ry="11"/>
-    <text class="zone-label" x="46" y="108">Schulter L</text>
+    <ellipse class="zone-shape" cx="56" cy="145" rx="18" ry="11"/>
+    <text class="zone-label" x="56" y="149">Schulter L</text>
   </g>
 
   <!-- SCHULTER RECHTS -->
   <g class="zone" data-zone="schulter-rechts" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="142" cy="92" rx="18" ry="11"/>
-    <text class="zone-label" x="154" y="108">Schulter R</text>
+    <ellipse class="zone-shape" cx="144" cy="145" rx="18" ry="11"/>
+    <text class="zone-label" x="144" y="149">Schulter R</text>
   </g>
 
   <!-- BRUSTKORB -->
   <g class="zone" data-zone="brustkorb" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="120" rx="36" ry="22"/>
-    <text class="zone-label" x="100" y="121">Brustkorb</text>
+    <ellipse class="zone-shape" cx="100" cy="192" rx="36" ry="24"/>
+    <text class="zone-label" x="100" y="196">Brustkorb</text>
   </g>
 
   <!-- HERZ -->
   <g class="zone" data-zone="herz" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="87" cy="114" rx="13" ry="13"/>
-    <text class="zone-label" x="87" y="114">Herz</text>
+    <ellipse class="zone-shape" cx="84" cy="183" rx="13" ry="13"/>
+    <text class="zone-label" x="84" y="187">Herz</text>
   </g>
 
   <!-- HAND LINKS -->
   <g class="zone" data-zone="haende" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="24" cy="214" rx="13" ry="17"/>
-    <text class="zone-label" x="14" y="236">Hände</text>
+    <ellipse class="zone-shape" cx="34" cy="312" rx="13" ry="17"/>
+    <text class="zone-label" x="34" y="316">Hand L</text>
   </g>
 
   <!-- HAND RECHTS -->
   <g class="zone" data-zone="haende" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="176" cy="214" rx="13" ry="17"/>
+    <ellipse class="zone-shape" cx="166" cy="312" rx="13" ry="17"/>
+    <text class="zone-label" x="166" y="316">Hand R</text>
   </g>
 
   <!-- OBERBAUCH -->
   <g class="zone" data-zone="oberbauch" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="157" rx="30" ry="17"/>
-    <text class="zone-label" x="100" y="157">Oberbauch</text>
+    <ellipse class="zone-shape" cx="100" cy="228" rx="30" ry="17"/>
+    <text class="zone-label" x="100" y="232">Oberbauch</text>
   </g>
 
   <!-- UNTERBAUCH -->
   <g class="zone" data-zone="unterbauch" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="198" rx="28" ry="17"/>
-    <text class="zone-label" x="100" y="198">Unterbauch</text>
+    <ellipse class="zone-shape" cx="100" cy="263" rx="27" ry="17"/>
+    <text class="zone-label" x="100" y="267">Unterbauch</text>
   </g>
 
   <!-- HÜFTE LINKS -->
   <g class="zone" data-zone="huefte" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="68" cy="238" rx="18" ry="14"/>
-    <text class="zone-label" x="56" y="256">Hüfte L</text>
+    <ellipse class="zone-shape" cx="64" cy="283" rx="18" ry="14"/>
+    <text class="zone-label" x="64" y="287">Hüfte L</text>
   </g>
 
   <!-- HÜFTE RECHTS -->
   <g class="zone" data-zone="huefte" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="132" cy="238" rx="18" ry="14"/>
-    <text class="zone-label" x="144" y="256">Hüfte R</text>
+    <ellipse class="zone-shape" cx="136" cy="283" rx="18" ry="14"/>
+    <text class="zone-label" x="136" y="287">Hüfte R</text>
   </g>
 
   <!-- KNIE LINKS -->
   <g class="zone" data-zone="knie" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="72" cy="330" rx="14" ry="15"/>
-    <text class="zone-label" x="60" y="348">Knie L</text>
+    <ellipse class="zone-shape" cx="75" cy="368" rx="14" ry="15"/>
+    <text class="zone-label" x="75" y="372">Knie L</text>
   </g>
 
   <!-- KNIE RECHTS -->
   <g class="zone" data-zone="knie" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="128" cy="330" rx="14" ry="15"/>
-    <text class="zone-label" x="140" y="348">Knie R</text>
+    <ellipse class="zone-shape" cx="125" cy="368" rx="14" ry="15"/>
+    <text class="zone-label" x="125" y="372">Knie R</text>
   </g>
 
   <!-- FÜSSE LINKS -->
   <g class="zone" data-zone="fuesse" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="72" cy="418" rx="17" ry="10"/>
-    <text class="zone-label" x="58" y="435">Fuß L</text>
+    <ellipse class="zone-shape" cx="75" cy="441" rx="17" ry="10"/>
+    <text class="zone-label" x="75" y="445">Fuß L</text>
   </g>
 
   <!-- FÜSSE RECHTS -->
   <g class="zone" data-zone="fuesse" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="128" cy="418" rx="17" ry="10"/>
-    <text class="zone-label" x="142" y="435">Fuß R</text>
+    <ellipse class="zone-shape" cx="125" cy="441" rx="17" ry="10"/>
+    <text class="zone-label" x="125" y="445">Fuß R</text>
   </g>
 
 </svg>
@@ -299,107 +270,74 @@ body{font-family:var(--font);background:var(--cream);color:var(--dark);min-heigh
 <div class="body-wrap" id="view-back" style="display:none">
 <svg viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
 
-  <!-- HAAR hinten (sehr prominent, fließend bis Taille) -->
-  <path d="M87,10 Q80,16 78,30 L75,55 Q73,82 73,110 Q73,135 76,157 Q79,171 83,177 Q88,177 87,162 Q86,145 87,121 Q88,96 90,68 L91,52 L109,52 L110,68 Q112,96 113,121 Q114,145 113,162 Q112,177 117,177 Q121,171 124,157 Q127,135 127,110 Q127,82 125,55 L122,30 Q120,16 113,10 Q100,4 87,10 Z" fill="#9e8878" opacity=".85"/>
-  <!-- Kopf -->
-  <ellipse cx="100" cy="30" rx="20" ry="23" class="body-outline"/>
-  <!-- Hals -->
-  <path d="M91,52 L89,68 Q100,74 111,68 L109,52" fill="#f0ece4"/>
-  <!-- Wirbelsäulen-Linie (subtil) -->
-  <path d="M100,74 Q100,140 100,200 Q100,235 100,271" fill="none" stroke="#c8c0b0" stroke-width="0.7" opacity=".45" stroke-dasharray="2,3"/>
-  <!-- Schulterblatt rechts (subtil) -->
-  <path d="M122,100 Q136,112 130,136 Q124,128 120,114 Z" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".45"/>
-  <!-- Schulterblatt links (subtil) -->
-  <path d="M78,100 Q64,112 70,136 Q76,128 80,114 Z" fill="none" stroke="#c8c0b0" stroke-width="0.8" opacity=".45"/>
-  <!-- Körper Rücken — ein durchgehender Pfad (Po etwas runder) -->
-  <path d="
-    M 111,68
-    C 124,66 142,71 154,81
-    C 162,91 166,107 165,124 C 165,142 164,160 163,177
-    C 162,193 160,208 159,222 C 158,230 157,237 155,244
-    Q 154,251 152,253 Q 149,252 148,244
-    C 148,236 148,224 148,208 C 148,192 148,175 147,159
-    C 146,143 143,129 137,117 C 133,107 126,101 119,101
-    C 130,103 140,116 142,133 C 144,148 140,164 134,175
-    C 128,185 122,197 121,214 C 120,229 124,244 131,257
-    C 136,266 138,275 136,283
-    C 133,296 130,310 128,326 C 127,342 128,358 129,374
-    C 130,388 130,402 128,416 C 127,426 128,434 132,441
-    C 135,446 140,448 146,449 L 110,449 L 90,449 L 54,449
-    C 60,448 65,446 68,441 C 72,434 73,426 72,416
-    C 70,402 70,388 71,374 C 72,358 73,342 72,326
-    C 70,310 67,296 64,283
-    C 62,275 64,266 69,257 C 76,244 80,229 79,214
-    C 78,197 72,185 66,175 C 60,164 56,148 58,133
-    C 60,116 70,103 81,101
-    C 74,101 67,107 63,117 C 57,129 54,143 53,159
-    C 52,175 52,192 52,208 C 51,224 51,236 51,244
-    Q 50,252 47,253 Q 44,251 43,244
-    C 42,237 41,230 40,222 C 39,208 38,193 37,177
-    C 36,160 35,142 35,124 C 34,107 38,91 46,81
-    C 58,71 76,66 89,68 Z
-  " class="body-outline"/>
+  <defs>
+    <clipPath id="backClip">
+      <rect x="0" y="0" width="200" height="460"/>
+    </clipPath>
+  </defs>
+  <!-- Lisa Foto Rückseite -->
+  <image href="lisa-back.jpg" x="-24" y="0" width="248" height="460" preserveAspectRatio="none" clip-path="url(#backClip)"/>
 
   <!-- ════ BACK ZONES ════ -->
 
   <!-- NACKEN & HWS -->
   <g class="zone" data-zone="nacken" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="74" rx="16" ry="13"/>
-    <text class="zone-label" x="100" y="74">Nacken</text>
+    <ellipse class="zone-shape" cx="100" cy="75" rx="14" ry="10"/>
+    <text class="zone-label" x="100" y="79">Nacken</text>
   </g>
 
   <!-- SCHULTERBLÄTTER LINKS -->
   <g class="zone" data-zone="schulterblaetter" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="73" cy="116" rx="17" ry="20"/>
-    <text class="zone-label" x="58" y="140">Schulterbl. L</text>
+    <ellipse class="zone-shape" cx="68" cy="128" rx="17" ry="20"/>
+    <text class="zone-label" x="68" y="132">Schulterbl. L</text>
   </g>
 
   <!-- SCHULTERBLÄTTER RECHTS -->
   <g class="zone" data-zone="schulterblaetter" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="127" cy="116" rx="17" ry="20"/>
-    <text class="zone-label" x="142" y="140">Schulterbl. R</text>
+    <ellipse class="zone-shape" cx="132" cy="128" rx="17" ry="20"/>
+    <text class="zone-label" x="132" y="132">Schulterbl. R</text>
   </g>
 
   <!-- BWS -->
   <g class="zone" data-zone="bws" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="128" rx="22" ry="26"/>
-    <text class="zone-label" x="100" y="128">BWS</text>
+    <ellipse class="zone-shape" cx="100" cy="150" rx="20" ry="24"/>
+    <text class="zone-label" x="100" y="154">BWS</text>
   </g>
 
   <!-- LWS -->
   <g class="zone" data-zone="lws" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="178" rx="24" ry="20"/>
-    <text class="zone-label" x="100" y="178">LWS</text>
+    <ellipse class="zone-shape" cx="100" cy="218" rx="22" ry="18"/>
+    <text class="zone-label" x="100" y="222">LWS</text>
   </g>
 
   <!-- BECKEN & KREUZBEIN -->
   <g class="zone" data-zone="becken" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="100" cy="222" rx="30" ry="18"/>
-    <text class="zone-label" x="100" y="222">Becken</text>
+    <ellipse class="zone-shape" cx="100" cy="263" rx="32" ry="18"/>
+    <text class="zone-label" x="100" y="267">Becken</text>
   </g>
 
   <!-- OBERSCHENKEL LINKS -->
   <g class="zone" data-zone="oberschenkel" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="76" cy="292" rx="16" ry="36"/>
-    <text class="zone-label" x="58" y="316">Oberschenkel L</text>
+    <ellipse class="zone-shape" cx="78" cy="325" rx="16" ry="30"/>
+    <text class="zone-label" x="78" y="329">Oberschenkel L</text>
   </g>
 
   <!-- OBERSCHENKEL RECHTS -->
   <g class="zone" data-zone="oberschenkel" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="124" cy="292" rx="16" ry="36"/>
-    <text class="zone-label" x="142" y="316">Oberschenkel R</text>
+    <ellipse class="zone-shape" cx="122" cy="325" rx="16" ry="30"/>
+    <text class="zone-label" x="122" y="329">Oberschenkel R</text>
   </g>
 
   <!-- WADE LINKS -->
   <g class="zone" data-zone="wade" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="76" cy="375" rx="13" ry="28"/>
-    <text class="zone-label" x="60" y="398">Wade L</text>
+    <ellipse class="zone-shape" cx="78" cy="385" rx="13" ry="20"/>
+    <text class="zone-label" x="78" y="389">Wade L</text>
   </g>
 
   <!-- WADE RECHTS -->
   <g class="zone" data-zone="wade" onclick="selectZone(this)">
-    <ellipse class="zone-shape" cx="124" cy="375" rx="13" ry="28"/>
-    <text class="zone-label" x="140" y="398">Wade R</text>
+    <ellipse class="zone-shape" cx="122" cy="385" rx="13" ry="20"/>
+    <text class="zone-label" x="122" y="389">Wade R</text>
   </g>
 
 </svg>
@@ -805,18 +743,18 @@ nacken:{
   badge:'',
   p:{
     h:'Parietal — 7 Wirbel · Atemhilfsmuskeln · Hirnnerven',
-    t:'7 Wirbel, besondere Struktur. Trägt den Kopf. Zwerchfellnerv kommt hauptsächlich aus C3. Atemhilfsmuskeln werden unter Stress zur Hauptatemmuskulatur — erschöpft sie und erzeugt Dauerdruck. Muskeln über Hirnnerven innerviert — direkte Stammhirnverbindung.',
-    tip:'Atme tief in den Bauch — spür wie die Nackenspannung nachlässt. Wenn das Zwerchfell arbeitet müssen die Nackenmuskeln nicht mehr atmen.'
+    t:'Die Halswirbelsäule besteht aus sieben Wirbeln und ist die beweglichste Zone der gesamten Wirbelsäule — und gleichzeitig die verletzlichste. Sie trägt einen Kopf von vier bis sechs Kilogramm, gibt wichtigen Nerven und Gefäßen Durchlass und verbindet Kopf und Körper auf engstem Raum. Der Zwerchfellnerv entspringt hauptsächlich aus C3 — eine blockierte HWS ist deshalb immer auch ein Atemthema. Die Atemhilfsmuskeln im Nacken werden unter Dauerstress zur Hauptatemmuskulatur. Das erschöpft sie — und erzeugt den typischen Dauerdruck der sich wie ein schwerer Helm anfühlt. Mehrere Nackenmuskeln werden direkt über Hirnnerven innerviert: eine direkte Verbindung zum Stammhirn, zum ältesten Teil des Nervensystems.',
+    tip:'Atme tief in den Bauch — und spür wie die Nackenspannung nachlässt. Wenn das Zwerchfell wieder arbeitet müssen die Nackenmuskeln nicht mehr einspringen.'
   },
   v:{
-    h:'Viszeral — Speiseröhre · Luftröhre · Thorax',
-    t:'Speiseröhre und Luftröhre verbinden Kopf und Thorax. Spannungen in der Halsmuskulatur beeinflussen wie frei diese schwingen können.',
-    tip:'Schluck bewusst leer. Wenn Schlucken Anstrengung kostet ist das ein Signal.'
+    h:'Viszeral — Speiseröhre · Schilddrüse · Thorax',
+    t:'Speiseröhre und Luftröhre ziehen durch die Halszone und verbinden Kopf und Thorax in einer direkten Linie. Spannungen in der Halsmuskulatur und Halsfaszie beeinflussen wie frei diese Organe schwingen und arbeiten können. Chronischer Würgereiz, Schluckbeschwerden oder das Gefühl eines Klumpens im Hals — das ist selten psychosomatisch, das ist Anatomie. Auch die Schilddrüse sitzt hier: Sie reagiert empfindlich auf chronische Halsanspannung und einen eingeschränkten Lymphfluss.',
+    tip:'Schluck bewusst leer. Wenn Schlucken Anstrengung kostet oder sich einseitig zieht — das ist ein Signal das genauer hinschauen lohnt.'
   },
   c:{
     h:'Craniosacral — Atlas · Dura · Angst',
-    t:'Atlas und Axis — die einzigen Wirbel an denen die Hirnhäute direkt anheften. Eine Blockierung hier beeinflusst den Liquorfluss bis zum Kreuzbein. Die Angst sitzt buchstäblich im Nacken. Welche Angst ist das bei dir?',
-    tip:'Lege eine Hand sanft in den Nacken — warm, ohne Druck. Der Nacken braucht Wärme und die Erlaubnis loszulassen.'
+    t:'Atlas und Axis sind die einzigen Wirbel an denen die Hirnhäute direkt anheften. Eine Blockierung hier beeinflusst den Liquorfluss vom Kopf bis zum Kreuzbein — das gesamte craniosacralen System schwingt mit. Der Nacken ist außerdem einer der ersten Orte wo Angst sich körperlich zeigt: der Nacken zieht sich zusammen, die Schultern gehen hoch, die Haltung kollabiert nach innen. Das ist kein Bild — das ist der Schutzreflex des Stammhirns. Welche Angst sitzt in deinem Nacken?',
+    tip:'Lege eine warme Hand sanft in den Nacken — ohne Druck. Atme ruhig. Der Nacken braucht Wärme und die Erlaubnis loszulassen — nicht mehr Kraft.'
   }
 },
 
@@ -825,19 +763,19 @@ bws:{
   title:'Schutz, Atem, Nervensystem — die Mitte die alles verbindet',
   badge:'',
   p:{
-    h:'Parietal — 12 Wirbel · Rippen · Beweglichkeit',
-    t:'12 Wirbel, jeder mit zwei Rippengelenken. Beweglichkeit herabgesetzt weil Herz und Lunge geschützt werden. Steife BWS schränkt Schultern, Atmung und Zwerchfell mit ein.',
-    tip:'Drehe den Oberkörper langsam nach rechts und links — nur aus der BWS. Wo blockiert es?'
+    h:'Parietal — 12 Wirbel · Rippengelenke · Atemkette',
+    t:'Die Brustwirbelsäule besteht aus zwölf Wirbeln — jeder mit zwei Rippengelenken links und rechts. Das ergibt vierundzwanzig kleine Gelenke die alle gleichzeitig atmen, drehen und federn müssen. Die BWS ist konstruktiv weniger beweglich als HWS und LWS — weil sie Herz und Lunge schützt. Aber das bedeutet nicht dass sie starr sein darf. Eine steife BWS nimmt Schultern, Rippen, Zwerchfell und Atemtiefe mit in die Einschränkung. Was nicht atmet, bewegt auch den Rest nicht.',
+    tip:'Drehe den Oberkörper langsam nach rechts und links — nur aus der BWS, ohne die Hüfte mitzubewegen. Wo hört die Bewegung auf? Dort ist die Blockade.'
   },
   v:{
     h:'Viszeral — Herz · Lunge · Sympathikus',
-    t:'Schutzhülle für Herz und Lunge. Beide hängen über Faszien an der BWS. Sympathischer Grenzstrang verläuft entlang der BWS.',
-    tip:'Rolle ein Handtuch quer unter die BWS im Liegen. Atme tief ein. Fünf Minuten täglich mobilisiert sanft.'
+    t:'Die BWS ist die Schutzhülle für Herz und Lunge — und beide Organe hängen über Faszien direkt an ihr. Die Lunge ist über die Pleurafaszie an der oberen BWS und der HWS befestigt: eine blockierte Brustwirbelsäule ist deshalb fast immer auch ein Lungenproblem. Der sympathische Grenzstrang — das Hauptkabel des Stressnervensystems — verläuft beidseitig entlang der gesamten BWS. Alles was das Nervensystem in Alarmbereitschaft versetzt landet direkt hier.',
+    tip:'Rolle ein gefaltetes Handtuch quer unter die BWS und leg dich darauf. Atme tief ein. Fünf Minuten täglich verändert die Brustwirbelsäule nachhaltig.'
   },
   c:{
     h:'Craniosacral — Sympathikus · Gedanken · Kreislauf',
-    t:'Gedanken, Mindset, Trigger können über den Sympathikus direkt zu BWS-Blockaden führen. Eine blockierte BWS schränkt die Atemtiefe ein. Eingeschränkte Atmung signalisiert Gefahr. Gefahr aktiviert den Sympathikus. Ein Kreislauf der sich selbst am Laufen hält.',
-    tip:'Wenn die Atmung flach wird und Angst steigt — atme bewusst in den Rücken. Das unterbricht den Kreislauf.'
+    t:'Gedanken, innere Überzeugungen und emotionale Trigger aktivieren über den Sympathikus direkt die Muskulatur entlang der BWS. Das führt zu Blockaden — die die Atemtiefe einschränken — was dem Gehirn Gefahr signalisiert — was den Sympathikus weiter aktiviert. Ein Kreislauf der sich selbst am Laufen hält ohne dass wir es merken. Wer seine Atmung verändert verändert das Nervensystem. Und wer das Nervensystem beruhigt, spürt es zuerst in der Brust.',
+    tip:'Wenn die Atmung flach wird und die innere Unruhe steigt — atme bewusst in den Rücken hinein. Stell dir vor die BWS wird weit. Das unterbricht den Kreislauf sofort.'
   }
 },
 
@@ -846,19 +784,19 @@ schulterblaetter:{
   title:'Eine Landkarte des Körpers — wer lesen kann sieht alles',
   badge:'',
   p:{
-    h:'Parietal — Züge aus allen Richtungen · Schultergelenk · Symmetrie',
-    t:'Symmetrisch angelegt, Teil des Schultergelenks. Bekommen Züge aus allen Richtungen gleichzeitig. Ein erfahrenes Auge kann an der Stellung ablesen wo im Körper Spannung sitzt. Die Schulterblätter lügen nicht.',
-    tip:'Steh vor einem Spiegel — sind die Schulterblätter symmetrisch? Steht eines weiter ab? Das sind keine Zufälle.'
+    h:'Parietal — Gleiten · Schultergelenk · Symmetrie',
+    t:'Die Schulterblätter sind symmetrisch angelegt und Teil des komplexen Schultergelenksystems. Sie bekommen Züge aus allen Richtungen gleichzeitig — von HWS, BWS, Schultergelenk, Rippen und den tiefen Rückenmuskeln. Ein erfahrenes therapeutisches Auge kann an der Stellung der Schulterblätter ablesen wo im Körper Spannung sitzt — welche Organe betroffen sind, welcher Nerv gereizt ist, ob das Nervensystem im Alarm- oder Ruhemodus ist. Die Schulterblätter lügen nicht.',
+    tip:'Steh vor einem Spiegel — sind die Schulterblätter symmetrisch? Steht eines weiter ab als das andere? Zeigen die unteren Spitzen in dieselbe Richtung? Das sind keine Zufälle.'
   },
   v:{
-    h:'Viszeral — Reflexzonen · Magen · Leber · Herz',
-    t:'Linkes Schulterblatt = Magenzone. Rechtes Schulterblatt = Leber-Bindegewebszone. Zwischen den Schulterblättern = Herzzone. Je nachdem woher die Züge kommen stehen die Schulterblätter unterschiedlich.',
-    tip:'Chronische Verspannung unter dem rechten Schulterblatt? Denk an die Leber. Links zwischen Schulterblatt und Wirbelsäule? Frag deinen Magen.'
+    h:'Viszeral — Magen · Leber · Herz · Reflexzonen',
+    t:'Die Schulterblätter sind Reflexzonen der inneren Organe. Das linke Schulterblatt ist die Magenzone — chronische Verspannung oder ein hochstehendes linkes Schulterblatt kann auf Magen- oder Herzprobleme hinweisen. Das rechte Schulterblatt ist die Leber-Gallenblasen-Zone — Verspannungen unter dem rechten Schulterblatt ohne strukturellen Befund sind ein häufiges Leber-Gallen-Signal. Zwischen den Schulterblättern liegt die Herzzone. Je nachdem woher die Züge kommen stehen die Schulterblätter anders.',
+    tip:'Chronische Verspannung unter dem rechten Schulterblatt? Denk an die Leber. Links zwischen Schulterblatt und Wirbelsäule — frag deinen Magen und dein Herz.'
   },
   c:{
-    h:'Craniosacral — Sympathikus · Embryonalstellung · Schutz',
-    t:'Entlang der BWS verläuft der sympathische Grenzstrang. Bei Angst, Kälte, Unwohlsein: Schultern hochziehen, Schulterblätter auseinander, Körper rundet sich — Embryonalstellung. Chronisch hochgezogene Schulterblätter sind ein Nervensystem das noch nicht angekommen ist.',
-    tip:'Öffne den Raum zwischen den Schulterblättern durch Ausatmen — nicht durch Kraft. Stell dir vor der Rücken wird weit und warm.'
+    h:'Craniosacral — Sympathikus · Schutzreflex · Ankommen',
+    t:'Entlang der BWS verläuft der sympathische Grenzstrang — das bedeutet: das Stressnervensystem und die Schulterblätter sind direkte Nachbarn. Bei Angst, Kälte, Überforderung zieht das Nervensystem die Schultern hoch, die Schulterblätter gleiten auseinander und der Körper rundet sich nach innen — Embryonalstellung. Das ist der älteste Schutzreflex den wir kennen. Chronisch hochgezogene Schulterblätter sind ein Nervensystem das noch nie wirklich angekommen ist.',
+    tip:'Öffne den Raum zwischen den Schulterblättern durch Ausatmen — nicht durch Muskelkraft. Stell dir vor der Rücken wird weit, warm und breit. Das Nervensystem öffnet sich mit.'
   }
 },
 
@@ -867,19 +805,19 @@ lws:{
   title:'Das Rückgrat — im wörtlichen und im übertragenen Sinn',
   badge:'',
   p:{
-    h:'Parietal — 5 Wirbel · Sakrum · Rückenfaszie',
-    t:'5 große Wirbel — viel Last tragen. Dichtes Bandnetz zum Sakrum. Thorakolumbale Faszie — eine der größten Faszien des Körpers. Stress aktiviert über Faszienspannung direkt die LWS.',
-    tip:'Leg dich auf den Rücken, Knie angewinkelt. Atme tief in den Bauch. Lässt die LWS dabei los?'
+    h:'Parietal — 5 Wirbel · Sakrum · Thorakolumbale Faszie',
+    t:'Fünf große, kräftige Wirbel — denn die LWS trägt das gesamte Körpergewicht von oben. Ein dichtes Bandnetz verbindet sie mit dem Sakrum. Die thorakolumbale Faszie — eine der größten und dicksten Faszien des gesamten Körpers — umhüllt die Rückenmuskulatur wie eine Schicht und zieht von der BWS bis ins Becken. Was oben unter Stress steht landet über diese Faszie direkt in der LWS. Chronische Anspannung irgendwo im Körper zieht sich irgendwann in den unteren Rücken.',
+    tip:'Leg dich auf den Rücken, beide Knie angewinkelt. Atme tief in den Bauch — und spür ob die LWS beim Ausatmen schwerer und weiter wird. Oder ob sie sich hält.'
   },
   v:{
     h:'Viszeral — Nieren · Darm · Gynäkologie',
-    t:'Nieren liegen direkt vor den Lendenwirbeln. Gesamtes Darmpaket hängt an der LWS. Gynäkologischer Bereich, Blase, Uterus haben fasziale Verbindungen. LWS-Schmerz ohne Befund ist fast immer ein viszeral-faszialer Befund.',
-    tip:'Chronische LWS-Schmerzen die nicht ansprechen? Lass Nieren, Darm und gynäkologischen Bereich mitbefunden.'
+    t:'Die Nieren liegen direkt vor den Lendenwirbeln — sie sind über Faszien mit der LWS verbunden. Nierenstress, Unterkühlung und chronische Erschöpfung übertragen sich direkt in den unteren Rücken. Das gesamte Darmpaket hängt über das Mesenterium an der LWS — Verstopfung, Blähungen und Reizdarm sind deshalb häufig LWS-Themen. Und dann ist da noch der gynäkologische Bereich: Uterus, Blase und Eierstöcke haben direkte fasziale Verbindungen zu den Lendenwirbeln. LWS-Schmerz ohne strukturellen Befund ist fast immer ein viszeral-faszialer Befund.',
+    tip:'Chronische LWS-Schmerzen die nicht auf Behandlung ansprechen? Lass Nieren, Darm und gynäkologischen Bereich mitbefunden — dort sitzt oft die eigentliche Ursache.'
   },
   c:{
-    h:'Craniosacral — Fundament · Angst · Seelenaufgaben',
-    t:'Jedem Wirbel wird eine Seelenaufgabe zugeordnet: Warum bin ich hier? Was ist mein Weg? Bin ich sicher? Wenn das innere Fundament fehlt zeigt sich das buchstäblich im Rücken. Scham, Perfektionismus, über die eigenen Grenzen gehen — alles sammelt sich hier.',
-    tip:'Lege eine warme Hand auf die LWS. Frag dich: Wo fehlt mir gerade das Fundament?'
+    h:'Craniosacral — Fundament · Seelenaufgaben · Erschöpfung',
+    t:'In der psychosomatischen und craniosacral-orientierten Arbeit wird jedem Lendenwirbel eine Seelenaufgabe zugeordnet: Warum bin ich hier? Was ist mein Weg? Bin ich sicher? Darf ich Raum einnehmen? Wer bin ich — jenseits dessen was andere von mir erwarten? Wenn das innere Fundament fehlt zeigt sich das buchstäblich im Rücken. Scham, Perfektionismus, chronisch über die eigenen Grenzen gehen — alles sammelt sich langfristig in der LWS.',
+    tip:'Lege eine warme Hand auf die LWS. Atme ruhig. Und frag dich: Wo fehlt mir gerade das Fundament — im Leben, nicht nur im Körper?'
   }
 },
 
@@ -888,19 +826,19 @@ becken:{
   title:'Die Schale des Körpers — Fundament, Ursprung und tiefstes emotionales Zentrum',
   badge:'',
   p:{
-    h:'Parietal — Schale · Symphyse · ISG · Beckenboden',
-    t:'Kreuzbein und Beckenschaufeln bilden eine Schale. Symphyse vorne, ISG hinten. Beckenboden als mehrschichtiges System. Zusammen mit Bauch, Rücken und Zwerchfell stabilisiert es den Rumpf.',
-    tip:'Atme tief in den Bauch und lass beim Ausatmen den Beckenboden bewusst los. Kannst du das?'
+    h:'Parietal — Schale · ISG · Beckenboden · Statik',
+    t:'Kreuzbein und Beckenschaufeln bilden zusammen eine knöcherne Schale — das Fundament des gesamten Rumpfes. Vorne verbindet die Symphyse die beiden Beckenhälften, hinten die Iliosakralgelenke (ISG). Der Beckenboden ist ein mehrschichtiges Muskelsystem das unten die Schale verschließt und gemeinsam mit Zwerchfell, tiefen Bauchmuskeln und Rückenstreckern den Rumpf stabilisiert. Wenn das Becken kippt oder dreht verändert sich die gesamte Statik — von den Füßen bis zum Kopf.',
+    tip:'Atme tief in den Bauch und lass beim Ausatmen den Beckenboden bewusst los — nicht anspannen, sondern loslassen. Viele Menschen haben auch hier keinen Zugang mehr.'
   },
   v:{
-    h:'Viszeral — Gynäkologie · Darm · Beckenboden',
-    t:'Gynäkologisches Paket mit Bandverbindungen zum Kreuzbein. Darm kann ins Becken absinken. Beckenboden hält dagegen — braucht aber auch Loslassen.',
-    tip:'Beckenbodenschwäche ist nicht immer zu wenig Spannung — oft ist es zu viel.'
+    h:'Viszeral — Gynäkologie · Darm · Blase · Beckenboden',
+    t:'Im Becken liegt das gesamte gynäkologische Paket — Uterus, Eierstöcke und Eileiter — mit direkten Bandverbindungen zum Kreuzbein. Der Darm kann ins Becken absinken und den Beckenboden belasten. Blase und Uterus sind über Faszien direkt mit dem vorderen Becken verbunden. Schmerzen beim Eisprung, Menstruationsprobleme, Blasenreizungen — sie haben oft eine strukturelle Komponente die behandelbar ist.',
+    tip:'Beckenbodenschwäche ist nicht immer zu wenig Spannung — sehr oft ist es genau umgekehrt: ein dauerhaft überspannter Beckenboden der nie wirklich loslässt.'
   },
   c:{
-    h:'Craniosacral — Dura · Ganglien · Wurzel',
-    t:'Dura heftet am Kreuzbein an — zieht bis zum Okziput. Schiefstellung des Kreuzbeins kann Kopfschmerzen auslösen. Wurzel- und Sakralchakra: Scham, Schuld, Sexualität, Grenzen, Empfangen, Loslassen.',
-    tip:'Sitz aufrecht, spür dein Sitzbein. Atme warm ins Becken. Das Becken braucht keine Anspannung — es braucht Vertrauen.'
+    h:'Craniosacral — Dura · Kreuzbein · Wurzel',
+    t:'Die Dura mater — die äußere Hirnhaut — heftet am Kreuzbein an und zieht von dort bis zum Okziput. Eine Schiefstellung oder Blockierung des Kreuzbeins beeinflusst über diese Verbindung den craniosacralen Rhythmus im gesamten System — und kann Kopfschmerzen, Konzentrationsprobleme oder Schlafstörungen auslösen die scheinbar nichts mit dem Becken zu tun haben. Das Becken trägt auch das was wir nicht zeigen: Scham, Schuld, Sexualität, Empfangen, Grenzen, Ursprung.',
+    tip:'Sitz aufrecht und spür dein Sitzbein. Atme warm ins Becken hinein. Das Becken braucht keine Anspannung — es braucht Vertrauen dass es trägt.'
   }
 },
 
@@ -909,19 +847,19 @@ oberschenkel:{
   title:'Eine Landkarte der Lendenwirbelsäule — und ob du auf beiden Beinen stehst',
   badge:'',
   p:{
-    h:'Parietal — L1-L5 Landkarte · Beckenbasis · Beinachse',
-    t:'Leiste = L1, Innenseite = L2/L3, übers Knie = L4, seitlich Unterschenkel = L5. Kennmuskel L3. Beckenstellung beeinflusst Oberschenkelstellung.',
-    tip:'Wo genau tut der Oberschenkel weh? Die genaue Lokalisation zeigt welcher Nerv aus der LWS betroffen sein könnte.'
+    h:'Parietal — L1–L5 Landkarte · Beinachse · Beckenbasis',
+    t:'Der Oberschenkel ist anatomisch eine präzise Landkarte der Lendenwirbelsäule: Die Leiste entspricht L1, die Innenseite L2 und L3, die Vorderseite übers Knie L4, die Außenseite des Unterschenkels L5. Wo genau der Schmerz sitzt sagt oft mehr als ein MRT. Der wichtigste Kennmuskel von L3 ist der Quadrizeps — der vordere Oberschenkelmuskel. Die Beckenstellung bestimmt direkt wie der Oberschenkel steht, dreht und belastet — und umgekehrt.',
+    tip:'Wo genau tut der Oberschenkel weh — innen, außen, vorne, hinten? Die genaue Lokalisation ist ein direkter Hinweis auf den betroffenen Lendenwirbel.'
   },
   v:{
-    h:'Viszeral — Leiste · Adduktorenkanal · Niere',
-    t:'Leiste als wichtigste Durchgangszone. Adduktorenkanal an der Innenseite. Niere und Bauchorgane über LWS. Lymphstau bei schlechtem Bauchtraining.',
-    tip:'Schwere müde Beine ohne Ursache? Schau auf die Leiste und auf die Nieren.'
+    h:'Viszeral — Leiste · Lymphe · Niere',
+    t:'Die Leistenregion ist die wichtigste Durchgangszone zwischen Rumpf und Bein — hier verlaufen Nerven, Blutgefäße, Lymphbahnen und der Iliopsoas gleichzeitig. Engpässe hier können die gesamte Beinversorgung beeinflussen. Der Adduktorenkanal an der Innenseite des Oberschenkels ist eine weitere potenzielle Engstelle. Niere und Bauchorgane strahlen über die LWS in den vorderen Oberschenkel aus. Chronisch schwere oder müde Beine ohne Befund — schau auf die Leiste und die Nieren.',
+    tip:'Schwere müde Beine ohne klare Ursache? Das ist fast immer ein kombiniertes Thema aus Leiste, Niere und LWS — selten ein reines Muskelproblem.'
   },
   c:{
-    h:'Craniosacral — Ischias · Vorwärtskommen · Stillstand',
-    t:'Ischiadicus an der Rückseite. Vorwärtskommen, Schritt machen, Stillstand. Stehst du auf beiden Beinen im Leben?',
-    tip:'Geh bewusst — spür jeden Schritt. Wann bist du das letzte Mal wirklich vorwärtsgegangen?'
+    h:'Craniosacral — Ischiadicus · Vorwärtskommen · Stillstand',
+    t:'Der Nervus ischiadicus zieht an der Rückseite des Oberschenkels entlang — der längste Nerv des Körpers. Er trägt alles was aus der LWS und dem Becken kommt bis in den Fuß. Chronische Ischialgien die nicht auf Behandlung ansprechen haben fast immer eine emotionale Dimension: Vorwärtskommen, den nächsten Schritt machen, sich nicht von der Stelle bewegen können. Stehst du im Leben gerade wirklich auf beiden Beinen?',
+    tip:'Geh bewusst — spür jeden einzelnen Schritt. Den Abrollvorgang, das Gewicht, den Kontakt. Wann hast du das letzte Mal einen Schritt bewusst nach vorne gemacht?'
   }
 },
 
@@ -931,18 +869,18 @@ wade:{
   badge:'',
   p:{
     h:'Parietal — Tibia · Fibula · Nervus peroneus',
-    t:'Zwei Knochen mit Syndesmose. Nervus peroneus am Fibulaköpfchen — häufig eingeklemmt. Leitet alles vom Fuß nach oben.',
-    tip:'Kribbeln im Fuß? Prüf das Fibulaköpfchen — ein kurzer Druck dort kann alles erklären.'
+    t:'Unterschenkel und Wade bestehen aus zwei Knochen — Tibia und Fibula — die über die Syndesmose fest aber nicht starr miteinander verbunden sind. Der Nervus peroneus zieht um das Fibulaköpfchen — einen kleinen Knochen direkt unterhalb des Knies — und ist dort besonders anfällig für Kompression. Kribbeln im Fuß, Taubheit oder Schwäche in der Fußhebung beginnen sehr oft an dieser Stelle — nicht im Fuß selbst. Unterschenkel und Wade leiten alles was vom Fuß kommt nach oben weiter und umgekehrt.',
+    tip:'Kribbeln oder Taubheit im Fuß ohne Ursache? Drück einmal kurz auf das Fibulaköpfchen — direkt unterhalb des Knies außen. Wenn das Kribbeln zunimmt oder bekannt ist, sitzt die Ursache oft dort.'
   },
   v:{
-    h:'Viszeral — Zweites Herz · Kreislauf · Stauung',
-    t:'Pumpt venöses Blut aktiv nach oben. Herzschwäche zeigt sich in geschwollenen Waden. Krampfadern, Bauchstauung.',
-    tip:'Schwere geschwollene Waden abends? Fast immer Kreislauf- und Lymphthema.'
+    h:'Viszeral — Zweites Herz · Kreislauf · Lymphe',
+    t:'Die Wadenmuskulatur ist die Venenpumpe des Körpers — sie pumpt das venöse Blut aktiv gegen die Schwerkraft nach oben zurück zum Herzen. Deshalb nennt man sie das zweite Herz. Wer lange sitzt oder steht ohne die Wade zu aktivieren, wessen Kreislauf schwach ist oder wer unter Rückstau aus dem Bauchraum leidet — der spürt es als schwere, geschwollene Waden am Abend. Auch Krampfadern beginnen oft mit einer zu wenig aktivierten Wade.',
+    tip:'Schwere geschwollene Waden abends — fast immer ein Kreislauf- und Lymphthema. Wadenheben, barfuß gehen, Beine hochlegen: das hilft mehr als Einlagen.'
   },
   c:{
-    h:'Craniosacral — Unsicheres Terrain · Stabilisierung · Nervensystem',
-    t:'Chronisch verspannte Waden — das Nervensystem ist ständig auf unsicherem Terrain. Wadenkrämpfe nachts: der Körper stabilisiert obwohl er längst ruhen dürfte.',
-    tip:'Geh barfuß auf unebenem Untergrund. Dein Nervensystem braucht die Erfahrung dass der Boden trägt.'
+    h:'Craniosacral — Unsicheres Terrain · Nervensystem · Loslassen',
+    t:'Chronisch verspannte Waden sind ein Nervensystem das sich ständig auf unsicherem Terrain wähnt. Die Wade ist evolutionär das erste was sich anspannt wenn der Boden uneben wird — wenn wir nicht wissen ob der nächste Schritt trägt. Wadenkrämpfe in der Nacht sind der Körper der noch stabilisiert obwohl er längst ruhen dürfte: ein Nervensystem das Sicherheit nicht loslassen kann.',
+    tip:'Geh barfuß auf unebenem Untergrund — Gras, Kiesel, unebenes Holz. Dein Nervensystem braucht die direkte Erfahrung dass der Boden trägt — auch wenn er uneben ist.'
   }
 }
 
